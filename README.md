@@ -1,6 +1,14 @@
+# About Me
+
+I am a DevOps engineer with a focus on streamlining development processes and ensuring efficient collaboration between development and operations teams.
+
+# Projects and Development Skills
+
+The projects in this repository serve as a testament to my development skills and expertise as a DevOps engineer. Each project demonstrates my ability to design, build, and optimize systems with a strong emphasis on automation and reliability:
+
 # Projects
 
-Welcome to my repository! Here, you can find a collection of projects I have worked on. Below is a brief description of each project:
+Here, you can find a collection of projects I have worked on. Below is a brief description of each project:
 
 ## grafana_influx_telegraf
 
