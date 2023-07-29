@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram-like Project</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+
+        .user-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+            /* margin-bottom: 20px; */
+        }
+
+        .image {
+            display: block;
+            width: 100%;
+            height: 80%;
+            object-fit: contain;
+            margin-bottom: 0px;
+        }
+
+        .image-container {
+            
+            display: none;
+            /* width: 1920px; */
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            width:100%;
+            height:100%;
+            /* max-width:100%;
+            min-width:100%; */
+
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: fixed;
+            /* top: 50%; */
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev {
+            left: 0%;
+            width:45%;
+            height:70%;
+            opacity:0%;
+
+            /* border-radius: 3px 0 0 3px; */
+        }
+
+
+        .next {
+            right: 0%;
+            border-radius: 3px 0 0 3px;
+            width:45%;
+            height:70%;
+            opacity:0%;
+        }
+
+
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background-color: blue;
+            transition: width 0.1s;
+        }
+
+        /* Footer Styles */
+        footer {
+          background-color: #fff;
+          border-top: 1px solid #ddd;
+          /* padding: 10px; */
+          text-align: center;
+          margin-top: 20px;
+          position:fixed;
+          bottom:0%;
+          width:100%;
+          /* height:0.5%; */
+        }
+
+         .grid-container{
+            max-width:100%;
+            height:80%;
+        }
+        /* @media only screen and (max-width: 1024px) 
+        {
+        .image {
+            width: 100%;
+            height:100%;
+        }}
+        .image-container {
+            width:90%;
+            justify-content: center;
+            margin-left:3%;
+            margin-bottom:10%;
+        } */
+    </style> 
+<html>   
+<body>
+    <div class="grid-container">
+    {% for username, user_data in images_per_user.items() %}
+        {% for image in user_data.images %}
+            <div class="image-container">
+                <div class="user-container">
+                    <a href="/Search_profile?profile_username={{username}}"> <img src="{{ '/static/profile_pictures/' + user_data.profile_picture }}" alt="Profile Picture" class="profile-picture"></a>
+                    <h2>{{ username }}</h2>
+                </div>
+                <img src="{{ '/static/stories/' + image.image_id }}" alt="Image" class="image">
+            </div>
+        {% endfor %}
+    {% endfor %}
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+</div>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+
+    <script>
+        const imageContainers = document.getElementsByClassName("image-container");
+        let slideIndex = 1;
+        let timer;
+        let progressBar = document.getElementById("progressBar");
+        let progressBarTimer;
+        const progressBarDuration = 5000;
+
+        function resetProgressBar() {
+            clearTimeout(progressBarTimer);
+            progressBar.style.width = "0%";
+            progressBar.style.transition = "none";
+
+            progressBarTimer = setTimeout(() => {
+                progressBar.style.transition = "width " + progressBarDuration / 1000 + "s linear";
+                progressBar.style.width = "100%";
+            }, 100);
+        }
+
+        function plusSlides(n) {
+            clearTimeout(timer);
+            showSlides(slideIndex += n-1);
+        }
+
+        function showSlides(n) {
+            if (n > imageContainers.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = imageContainers.length}
+
+            let displayed = false;
+            for (let i = 0; i < imageContainers.length; i++) {
+                if (imageContainers[i].style.display === "block") {
+                    imageContainers[i].style.display = "none";
+                    let newIndex = i + n;
+                    if (newIndex >= imageContainers.length) {
+                        newIndex = 0;
+                    } else if (newIndex < 0) {
+                        newIndex = imageContainers.length - 1;
+                    }
+                    imageContainers[newIndex].style.display = "block";
+                    displayed = true;
+                    break;
+                }
+            }
+
+            if (!displayed) {
+                imageContainers[0].style.display = "block";
+            }
+
+            resetProgressBar();
+
+            timer = setTimeout(() => {
+                plusSlides(1);
+            }, progressBarDuration);
+        }
+
+        showSlides(slideIndex);
+    </script>
+</body>
+<footer>
+    <p>Copyright &copy; VibeGram
+</footer>
+</html>

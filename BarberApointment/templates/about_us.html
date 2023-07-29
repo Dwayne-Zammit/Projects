@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>About Us - Barber Shop</title>
+  <style>
+    .navbar {
+      background-color: #222;
+      color: #fff;
+      padding: 10px;
+      padding: 20px;
+    }
+
+    .nav-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .nav-item a {
+      color: #fff;
+      text-decoration: none;
+      padding: 5px 10px;
+    }
+
+    .nav-item a:hover {
+      background-color: #555;
+    }
+
+    body {
+      background-color: #222;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .barber-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* Align items at the top */
+      margin-bottom: 40px;
+      margin-top:10%;
+    }
+
+    .barber-container .barber-info {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .barber-container .barber {
+      position: relative;
+      margin: 0 10px; /* Add spacing between images */
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .barber-container .barber:hover {
+      transform: scale(1.1); /* Zoom effect on hover */
+    }
+
+    .barber-container img {
+      max-width: 100%;
+      height: 350px; /* Adjust the height as needed */
+      object-fit: cover; /* Maintain image aspect ratio */
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    }
+
+    .shop-container {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .shop-container img {
+      max-width: 100%;
+      height: auto;
+      object-fit: contain; /* Fit the image within the container */
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+    }
+
+    .fullscreen-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .fullscreen-image {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+    }
+    .footer {
+        background-color: #333;
+        text-align: center;
+        color: #fff;
+        bottom: 0;
+        position: fixed;
+        width: 100%;
+        left:0;
+    }
+
+  </style>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<nav class="navbar">
+    <ul class="nav-list">
+      <li class="nav-item"><a href="/contact_us">Contact</a></li>
+      <li class="nav-item"><a href="/services">Services</a></li>
+      <li class="nav-item"><a href="/">Book Now</a></li>
+    </ul>
+  </nav>
+<body>
+    <div class="container">
+      <h1>About Us</h1>
+      <p>Welcome to our barber shop, where style meets precision. We are passionate about providing top-notch grooming services to our valued customers. With our team of skilled barbers and a comfortable atmosphere, we strive to create an exceptional experience for every client.</p>
+      <p>At our barber shop, we understand that a haircut is not just a routine task; it's an opportunity to express your unique style. Our talented barbers stay up-to-date with the latest trends and techniques to ensure you leave our shop looking and feeling your best.</p>
+      <p>Whether you're looking for a classic cut, a modern style, or a clean shave, our team is dedicated to delivering high-quality services tailored to your preferences. We take pride in our attention to detail and our commitment to customer satisfaction.</p>
+      <div class="barber-container">
+        <div class="barber">
+          <img src="static\images\luke_photo.jpg" alt="Luke">
+          <div class="barber-info">
+            <h3>Luke</h3>
+            <p>Master Barber</p>
+          </div>
+        </div>
+        <div class="barber">
+          <img src="static\images\barber2.jpg" alt="Lydon">
+          <div class="barber-info">
+            <h3>Lydon</h3>
+          </div>
+        </div>
+      </div>
+      <p>Visit our barber shop today and experience the art of grooming in a relaxed and welcoming environment. We look forward to providing you with exceptional service and a hairstyle that suits your personality and lifestyle.</p>
+      
+      <p style="text-align:center;">Our Shop</p>
+      <div class="shop-container">
+        <img src="static\images\shop_image.jpg" alt="Barber Shop" class="shop-image">
+      </div>
+    </div>
+    <div class="fullscreen-overlay">
+      <img class="fullscreen-image" src="" alt="Fullscreen Image">
+    </div>
+    <script>
+      const barberImages = document.querySelectorAll('.barber img');
+      const fullscreenOverlay = document.querySelector('.fullscreen-overlay');
+      const fullscreenImage = document.querySelector('.fullscreen-image');
+      const shopImage = document.querySelector('.shop-image');
+  
+      barberImages.forEach(image => {
+        image.addEventListener('click', () => {
+          fullscreenImage.src = image.src;
+          fullscreenOverlay.style.display = 'flex';
+        });
+      });
+  
+      shopImage.addEventListener('click', () => {
+        fullscreenImage.src = shopImage.src;
+        fullscreenOverlay.style.display = 'flex';
+      });
+  
+      fullscreenOverlay.addEventListener('click', () => {
+        fullscreenOverlay.style.display = 'none';
+      });
+    </script>
+  </body>
+  <footer class="footer">
+    <p>&copy; Nunu's Barber Shop. All rights reserved.</p>
+  </footer>
+</html>
+  

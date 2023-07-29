@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fafafa;
+}
+h1, h2 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+a {
+  text-decoration: none;
+  color: #3897f0;
+}
+ul {
+  list-style: none;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Header Styles */
+header {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav ul {
+  display: flex;
+}
+nav ul li {
+  margin-right: 15px;
+}
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Login Form Styles */
+.registration-form {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 20px;
+  width: 400px;
+  margin: 50px auto;
+}
+.registration-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.registration-form form label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.registration-form form input[type="text"], .registration-form form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+.registration-form form input[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #3897f0;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.registration-form form input[type="submit"]:hover {
+  background-color: #357ae8;
+}
+.registration-form p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+}
+</style>
+<html>
+<head>
+	<title>Register | VibeGram</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<h1>VibeGram</h1>
+	</header>
+	<main>
+		<section class="registration-form">
+			<h2>Register</h2>
+			<form action="" method="post">
+				<label for="username">Username:</label>
+				<input type="text" id="username" name="username" required>
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="password" required>
+				<input type="submit" value="Register">
+			</form>
+		</section>
+	</main>
+	<footer>
+		<p>Copyright &copy; VibeGram.
+	</footer>
+</body>
+</html>

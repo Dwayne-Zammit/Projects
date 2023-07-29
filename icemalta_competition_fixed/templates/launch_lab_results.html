@@ -1,0 +1,222 @@
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #333;
+      }
+      
+      .top-nav {
+        background-color: #222;
+        padding: 10px;
+      }
+      
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        /* align-items: center; */
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      
+      .logo {
+        color: #fff;
+        font-size: 20px;
+        text-decoration: none;
+      }
+      
+      .nav-menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+      
+      .nav-menu li {
+        margin-left: 20px;
+      }
+      
+      .nav-menu li a {
+        color: #fff;
+        text-decoration: none;
+      }
+      
+      .content {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        color: #333;
+      }
+      
+      h1 {
+        color: #333;
+        /* text-align: center; */
+      }
+      
+      .tiles {
+        display: flex;
+        /* flex-wrap: wrap; */
+        /* justify-content: center; */
+      }
+      
+      .tile {
+        width: 100%;
+        /* height:150%; */
+        padding: 20px;
+        margin: 20px;
+        background-color: #f2f2f2;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        /* text-align: center; */
+      }
+      
+      .tile img {
+        /* width: 100%; */
+        /* height: auto; */
+        border-radius: 4px;
+        margin-bottom: 10px;
+        margin-left:30%;
+      }
+      
+      .tile h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+      
+      .tile p {
+        color: #555;
+      }
+      .download_lab_guide {
+      background-color: #000000; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+      width:100%;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+    
+      .download_lab_guide:hover {
+      background-color: #36454F; /* Green */
+      color: white;
+      cursor: pointer;
+        transition: 1;
+    }
+    
+    .lab_description {
+        height:10%;
+    }
+    
+    </style>
+
+    <script>
+  const downloadButton = document.getElementById('downloadButton');
+  const file_Path = document.getElementById('file_path');
+  const filePath = file_Path.innerText.trim();
+  console.log(file_Path)
+  downloadButton.addEventListener('click', () => {
+    // Construct the download URL
+    const downloadUrl = '/download_file/' + filePath;
+
+    // Trigger the download using JavaScript
+    fetch(downloadUrl)
+      .then(response => response.blob())
+      .then(blob => {
+        // Create a temporary link element to initiate the download
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  });
+// const downloadButton = document.getElementById('downloadButton');
+// const file_Path = document.getElementById('file_path');
+// const filePath = file_Path.innerText.trim();
+// console.log(filePath);
+// downloadButton.addEventListener('click', () => {
+//   // Construct the download URL
+//   const downloadUrl = '/download_file/' + filePath;
+
+//   // Trigger the download by setting the URL as the window location
+//   window.location.href = downloadUrl;
+// });
+
+</script>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Home</title>
+    </head>
+    <body>
+      <nav class="top-nav">
+        <div class="nav-container">
+          <a href="/home"logo"><img src="\static\images\logo.png" alt="Your Logo" width="70" height="40"/></a>
+          <ul class="nav-menu">
+            <li style="margin-top:20%;"><a href="">Logout </a></li>
+          </ul>
+        </div>
+      </nav>
+    <form>
+      <div class="content">
+        <h1>Lab Launcher Demo Labs</h1>
+        
+        <div class="tiles">
+          <div class="tile">
+            <img src="/static/images/windows-10-mini-logo.jpg" alt="Image 1" width="400" height="250">
+            <h2>LAB #1: Managing Windows Settings</h2>
+            <p class="lab_description">Learn how to use Windows Settings to manage your system</p>
+            <button class="download_lab_guide" type="submit">Download Lab Guide</button>
+          </div>
+      </div>
+      <table>
+        <tr>
+          <th>Item</th>
+          <th>Value</th>
+        </tr>
+        <tr>
+          <td>Hostname</td>
+          <td>{{publicip}}</td>
+        </tr>
+        <tr>
+          <td>Username</td>
+          <td>Administrator</td>
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td>{{password}}</td>
+        </tr>
+        <tr>
+            <td>Connection File</td>
+            <td><button id="downloadButton">Download File</button>
+                <p id="file_path" name="file_path">{{file_path}}</p>
+            </td>
+        </tr>
+      </table>
+    </body>
+</form>
+    </html>

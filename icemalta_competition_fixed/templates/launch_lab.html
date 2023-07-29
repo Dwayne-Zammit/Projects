@@ -1,0 +1,428 @@
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #333;
+      }
+      
+      .top-nav {
+        background-color: #222;
+        padding: 10px;
+      }
+      
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        /* align-items: center; */
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      
+      .logo {
+        color: #fff;
+        font-size: 20px;
+        text-decoration: none;
+      }
+      
+      .nav-menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+      
+      .nav-menu li {
+        margin-left: 20px;
+      }
+      
+      .nav-menu li a {
+        color: #fff;
+        text-decoration: none;
+      }
+      
+      .content {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        color: #333;
+      }
+      
+      h1 {
+        color: #333;
+        /* text-align: center; */
+      }
+      
+      .tiles {
+        display: flex;
+        /* flex-wrap: wrap; */
+        /* justify-content: center; */
+      }
+      
+      .tile {
+        width: 100%;
+        /* height:150%; */
+        padding: 20px;
+        margin: 20px;
+        background-color: #f2f2f2;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        /* text-align: center; */
+      }
+      
+      .tile img {
+        /* width: 100%; */
+        /* height: auto; */
+        border-radius: 4px;
+        margin-bottom: 10px;
+        margin-left:30%;
+      }
+      
+      .tile h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+      
+      .tile p {
+        color: #555;
+      }
+      .download_lab_guide {
+      background-color: #000000; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+
+
+    table  {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+    
+      .download_lab_guide:hover {
+      background-color: #36454F; /* Green */
+      color: white;
+      cursor: pointer;
+        transition: 1;
+    }
+    
+    .lab_description {
+        height:10%;
+    }
+    .loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-top:20%; */
+  /* height: 100%; */
+}
+#download_file {background-color: #000000; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.loader::after {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top-color: #3498db;
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.loader_container{
+    display:flex;  
+    justify-content: left;
+}
+
+#results_table {
+    display: none;
+}
+table {
+    table-layout:fixed;
+/* width: 100%; */
+border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      /* text-align: left; */
+      width:10%;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+    tr {
+        width:300px;
+    }
+
+#result_password{
+    width:100%;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+#countdown{
+
+    width:9%;
+}
+#result_password {
+    outline:none;
+    border:none;
+}
+.password_container {
+ display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 8px;
+}
+    </style>
+    <script>
+// window.addEventListener('DOMContentLoaded', (event) => {
+//   // Display loading spinner
+//   const loadingSpinner = document.createElement('div');
+//   loadingSpinner.className = 'loader';
+//   document.body.appendChild(loadingSpinner);
+
+//   // Fetch data or perform any other actions
+//   fetch('http://127.0.0.1:5000/launch_instance')
+//     .then(response => response.json())
+//     .then(data => {
+//       console.log(data);
+//       // Use data here
+
+//       // Remove loading spinner
+//       document.body.removeChild(loadingSpinner);
+//     })
+//     .catch(error => {
+//       console.error('Error:', error);
+
+//       // Remove loading spinner
+//       document.body.removeChild(loadingSpinner);
+//     });
+// });
+
+// window.addEventListener('DOMContentLoaded', async(event) => {
+//   // Display loading spinner
+//   const loadingSpinner = document.createElement('div');
+//   loadingSpinner.className = 'loader';
+//   document.body.appendChild(loadingSpinner);
+
+//   // Fetch data or perform any other actions
+//   const res = await fetch('http://127.0.0.1:5000/launch_instance', {method: 'GET'})
+//     document.body.removeChild(loadingSpinner);
+//     const json = await res.json()
+    
+//     document.getElementById('results_table').style.display="block"
+//     document.getElementById('public_ip').textContent = json.public_ip
+//     document.getElementById('result_password').textContent = json.password
+//     document.getElementById('file_path').textContent = json.filepath
+//     document.getElementById('download_file').href = 'download_file/' + json.filepath
+
+//     var countdownTime = 3 * 60 * 60 * 1000;
+
+// // Get the current timestamp
+// var startTime = new Date().getTime();
+
+// // Calculate the target end time
+// var endTime = startTime + countdownTime;
+
+// // Update the countdown every second
+// var countdown = setInterval(function() {
+//     // Get the current timestamp
+//     var now = new Date().getTime();
+
+//     // Calculate the time remaining
+//     var timeRemaining = endTime - now;
+
+//     // Calculate hours, minutes, and seconds
+//     var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+//     var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+//     var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+//     // Display the countdown
+//     document.getElementById("countdown").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+
+//     // If the countdown is finished, display a message
+//     if (timeRemaining < 0) {
+//         clearInterval(countdown);
+//         document.getElementById("countdown").innerHTML = "Countdown expired!";
+//     }
+// }, 1000);    
+//     console.log(json)
+//     return json
+//             // Set the countdown time to 3 hours (in milliseconds)
+
+// });
+function show_password()
+{
+    const password = document.getElementById("result_password");
+    const image = document.getElementById('password_image');
+if (password.type === "text")  {
+   password.type="password";
+   image.src="static/images/eye-solid.png";
+} else {
+  password.type="text";
+
+  image.src="static/images/eye-slash-solid.png";
+}
+}
+window.addEventListener('DOMContentLoaded', async (event) => {
+  // Display loading spinner
+  const loadingSpinner = document.createElement('div');
+  loadingSpinner.className = 'loader';
+  document.body.appendChild(loadingSpinner);
+
+  try {
+    // Fetch data or perform any other actions
+    const res = await fetch('http://127.0.0.1:5000/launch_instance', { method: 'GET' });
+    const json = await res.json();
+
+    // Remove loading spinner
+    document.body.removeChild(loadingSpinner);
+
+    document.getElementById('results_table').style.display = "block";
+    document.getElementById('public_ip').textContent = json.public_ip;
+    document.getElementById('result_password').value = json.password;
+    document.getElementById('file_path').textContent = json.filepath;
+    document.getElementById('download_file').href = 'download_file/' + json.filepath;
+
+    // Set the countdown time to 3 hours (in milliseconds)
+    var countdownTime = 1 * 60 * 60 * 1000;
+
+    // Get the current timestamp
+    var startTime = new Date().getTime();
+
+    // Calculate the target end time
+    var endTime = startTime + countdownTime;
+
+    // Update the countdown every second
+    var countdown = setInterval(function () {
+      // Get the current timestamp
+      var now = new Date().getTime();
+
+      // Calculate the time remaining
+      var timeRemaining = endTime - now;
+
+      // Calculate hours, minutes, and seconds
+      var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+      // Display the countdown
+      document.getElementById("countdown").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+
+      // If the countdown is finished, display a message
+      if (timeRemaining < 0) {
+        clearInterval(countdown);
+        document.getElementById("countdown").innerHTML = "Countdown expired!";
+      }
+    }, 1000);
+
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+// const res = await fetch('http://127.0.0.1:5000/launch_instance', {method: 'GET'})
+// return res
+
+    </script>  
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="style.css">
+      <title>Home</title>
+    </head>
+    <body>
+      <nav class="top-nav">
+        <div class="nav-container">
+          <a href="home"><img src="\static\images\logo.png" alt="Your Logo" width="70" height="40"/></a>
+          <ul class="nav-menu">
+            <!-- <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li> -->
+            <li style="margin-top:20%;"><a href="#">Logout </a></li>
+          </ul>
+        </div>
+      </nav>
+    
+      <div class="content">
+        <h1>Lab Launcher Demo Labs</h1>
+        
+        <div class="tiles">
+          <div class="tile">
+            <img src="static/images/windows-10-mini-logo.jpg" alt="Image 1" width="400" height="250">
+            <h2>LAB #1: Managing Windows Settings</h2>
+            <p class="lab_description">Learn how to use Windows Settings to manage your system</p>
+            <button class="download_lab_guide" type="submit">Download Lab Guide</button>
+            <div class="loader_container">
+            <div id=loader></div>
+            <p>Please wait until the windows server is created<p>
+            </div>   
+          </div>
+      </div>
+        <table id="results_table">
+        <tr>
+          <th>Item</th>
+          <th>Value</th>
+        </tr>
+        <tr>
+          <td>Hostname</td>
+          <td id="public_ip"></td>
+        </tr>
+        <tr>
+          <td>Username</td>
+          <td>Administrator</td>
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td ><div class="password_container"><input id="result_password" type="password" value="change_this"/><button onclick="show_password()"><img alt="password_image" id="password_image" src="static/images/eye-solid.png"/></button></div></td>
+        </tr>
+        <tr>
+            <td>Connection File</td>
+            <td><a id='download_file' href="download_file/" id="downloadButton">Download File</button>
+            <p id="file_path" style="display:none;">{{ rdp_filepath }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>Time Left</td>
+            <td id="countdown"><p></p></td>
+        </tr>
+      </table>
+    </body>
+    </html>
+

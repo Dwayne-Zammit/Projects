@@ -1,0 +1,773 @@
+<!-- <html>
+  <head>
+    <title>Barber Shop</title>
+    <style>
+      /* CSS Styling */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #222;
+        color: #fff;
+        padding: 20px;
+      }
+  
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+  
+      form {
+        width: 300px;
+        margin: 0 auto;
+        background-color: #333;
+        border: 1px solid #555;
+        border-radius: 5px;
+        padding: 20px;
+      }
+  
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+  
+      select, input[type="text"] {
+        width: 95%;
+        padding: 8px;
+        border: 1px solid #555;
+        border-radius: 3px;
+        background-color: #444;
+        color: #fff;
+      }
+      
+      select{
+        width:100%;
+      }
+      input[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        background-color: #555;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-top:2%;
+      }
+  
+      input[type="submit"]:hover {
+        background-color: #777;
+      }
+  
+      .unavailable {
+        color: #999;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Barber Shop</h1>
+    <img src="static/images/nunus_logo.PNG" alt="logo">
+    <form method="POST">
+      {{ form.csrf_token }}
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name" required>
+      <label for="date">Date:</label>
+      {{ form.date() }}
+      <label for="time">Time:</label>
+      <select name="time" id="time">
+        {% for hour in range(8, 18) %}
+          {% for minute in ["00", "30"] %}
+            {% set current_time = hour ~ ":" ~ minute %}
+            {% if current_time in takenTimes %}
+              <option value="{{ current_time }}" class="unavailable" disabled>{{ current_time }}</option>
+            {% else %}
+              <option value="{{ current_time }}">{{ current_time }}</option>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </select>
+      <input type="submit" value="Submit">
+    </form>
+  
+    <script>
+      // Remove disabled options from the dropdown list
+      const select = document.getElementById('time');
+      const options = select.getElementsByTagName('option');
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].disabled) {
+          select.removeChild(options[i]);
+        }
+      }
+    </script>
+  </body>
+  </html>
+   -->
+
+  <!-- <html>
+  <head>
+    <title>Barber Shop</title>
+    <style>
+      /* CSS Styling */
+      body {
+        font-family: Century;
+        background-color: #222;
+        color: #fff;
+        padding: 20px;
+      }
+  
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+  
+      form {
+        width: 50%;
+        margin: 0 auto;
+        background-color: #333;
+        border: 1px solid #555;
+        border-radius: 5px;
+        padding: 20px;
+        font-size: 150%;
+        /* font-family: Helvetica */
+      }
+  
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+  
+      select,
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #555;
+        border-radius: 3px;
+        background-color: #444;
+        color: #fff;
+      }
+      
+      select {
+        width: 100%;
+      }
+      
+      input[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        background-color: #555;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-top: 2%;
+      }
+  
+      input[type="submit"]:hover {
+        background-color: #777;
+      }
+  
+      .unavailable {
+        color: #999;
+      }
+      
+      /* Media queries for responsive image */
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    /* .date-input {
+    margin-bottom: 10px;
+    }
+  
+    .date-input label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  
+    .date-input input[type="date"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #555;
+      border-radius: 3px;
+      background-color: #444;
+      color: #fff;
+    } */
+  input[type=date],
+ input[type=time] {
+     border            : none;
+     box-sizing        : border-box;
+     outline           : 0;
+     padding-left      : .75rem;
+     display           : flex;
+     justify-content   : center;
+     position          : relative;
+     width             : 100%;
+     -moz-appearance   : textfield;
+     -webkit-appearance: none;
+     margin            : 0;
+     background-color  : #444;
+     color             : #fff;
+
+ }
+
+ input[type=date]::placeholder,
+ input[type=time]::placeholder {
+     font-family: 'Roboto';
+     font-size  : 17px;
+     font-style : normal;
+     font-weight: 400;
+ }
+
+ input[type=date]::-webkit-calendar-picker-indicator,
+ input[type=time]::-webkit-calendar-picker-indicator {
+     background: none;
+     bottom    : 0;
+     color     : transparent;
+     cursor    : pointer;
+     height    : auto;
+     left      : 0;
+     position  : absolute;
+     right     : 0;
+     top       : 0;
+     width     : auto;
+ }
+
+
+ input[type=date]::-webkit-datetime-edit,
+ input[type=time]::-webkit-datetime-edit {
+     text-align: center;
+     width     : 100%;
+ }
+    @media (max-width: 600px) {
+      img {
+        max-width: 80%;
+        max-height: 300px;
+      }
+    }
+  
+    @media (max-width: 400px) {
+      img {
+        max-width: 60%;
+        max-height: 300px;
+      }
+    }
+    @media (max-width: 1080px) {
+      img {
+        width: 90%;
+        max-height: 200px;
+        margin-bottom: 1%;
+        margin-left:5%;
+      }
+      body{
+        font-size: 200%;
+      }
+      h1 {font-size: 100%;}
+    }
+
+    @media (max-width: 3840px) {
+      img {
+        width:80%;
+        max-height: 350px;
+        margin-bottom: 1%;
+        margin-left:10%;
+      }
+      body{
+        font-size: 180%;
+      }
+      h1 {font-size: 100%;}
+    }
+      </style>
+  </head>
+  <body>
+    <img src="static/images/nunus_logo.PNG" alt="logo">
+    <h1>Book your apointment by filling the below</h1>
+    <form method="POST">
+      {{ form.csrf_token }}
+      <label for="name">Full Name:</label>
+      <input type="text" name="name" id="name" required>
+      <div class="date-input">
+      <label for="date">Date:</label>
+      {{ form.date() }}
+      </div>
+      <label for="time">Time:</label>
+      <select name="time" id="time">
+        {% for hour in range(8, 18) %}
+          {% for minute in ["00", "30"] %}
+            {% set current_time = hour ~ ":" ~ minute %}
+            {% if current_time in takenTimes %}
+              <option value="{{ current_time }}" class="unavailable" disabled>{{ current_time }}</option>
+            {% else %}
+              <option value="{{ current_time }}">{{ current_time }}</option>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </select>
+      <input type="submit" value="Submit">
+    </form>
+    <script>
+      // Remove disabled options from the dropdown list
+      const select = document.getElementById('time');
+      const options = select.getElementsByTagName('option');
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].disabled) {
+          select.removeChild(options[i]);
+        }
+      }
+    </script>
+  </body>
+</html> -->
+
+
+
+
+<!-- <!DOCTYPE html>
+  <style>
+    /* CSS Styling */
+    body {
+      font-family: Century;
+      background-color: #222;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      width: 50%;
+      margin: 0 auto;
+      background-color: #333;
+      border: 1px solid #555;
+      border-radius: 5px;
+      padding: 20px;
+      font-size: 150%;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    select,
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #555;
+      border-radius: 3px;
+      background-color: #444;
+      color: #fff;
+    }
+
+    select {
+      width: 100%;
+    }
+
+    input[type="submit"] {
+      display: block;
+      width: 100%;
+      padding: 8px;
+      background-color: #555;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-top: 2%;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #777;
+    }
+
+    .unavailable {
+      color: #999;
+    }
+
+    /* Media queries for responsive image */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Styling for the live query result */
+    #time-result {
+      margin-top: 10px;
+      color: #999;
+    }
+    .time-label-input{display:none}
+
+input[type=date],
+ input[type=time] {
+     border            : none;
+     box-sizing        : border-box;
+     outline           : 0;
+     padding-left      : .75rem;
+     display           : flex;
+     justify-content   : center;
+     position          : relative;
+     width             : 100%;
+     -moz-appearance   : textfield;
+     -webkit-appearance: none;
+     margin            : 0;
+     background-color  : #444;
+     /* color             : #fff; */
+     /* height            : 100px; */
+
+
+ }
+
+ input[type=date]::placeholder,
+ input[type=time]::placeholder {
+     font-family: 'Roboto';
+     font-size  : 17px;
+     font-style : normal;
+     font-weight: 400;
+ }
+
+ input[type=date]::-webkit-calendar-picker-indicator,
+ input[type=time]::-webkit-calendar-picker-indicator {
+     background: none;
+     bottom    : 0;
+     color     : transparent;
+     cursor    : pointer;
+     height    : auto;
+     left      : 0;
+     position  : absolute;
+     right     : 0;
+     top       : 0;
+     width     : auto;
+ }
+
+
+ input[type=date]::-webkit-datetime-edit,
+ input[type=time]::-webkit-datetime-edit {
+     text-align: center;
+     width     : 100%;
+ }
+
+ input[type="date"]::-webkit-input-placeholder {
+  color: #fff;
+  opacity: 1;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  color: #fff;
+}
+ @media (max-width: 600px) {
+      img {
+        max-width: 80%;
+        max-height: 300px;
+      }
+    }
+  
+    @media (max-width: 400px) {
+      img {
+        max-width: 60%;
+        max-height: 300px;
+      }
+    }
+    @media (max-width: 1080px) {
+      img {
+        width: 90%;
+        max-height: 200px;
+        margin-bottom: 1%;
+        /* margin-left:5%; */
+      }
+      body{
+        font-size: 200%;
+      }
+      h1 {font-size: 100%;}
+    }
+
+    @media (max-width: 3840px) {
+      img {
+        width:100%;
+        max-height: 700px;
+        margin-bottom: 1%;
+        /* margin-left:20%; */
+      }
+      body{
+        font-size: 180%;
+      }
+      h1 {font-size: 100%;}
+    }
+  </style>
+
+<script>
+  function updateAvailableTimes() {
+    const select = document.getElementById('time');
+    const options = select.getElementsByTagName('option');
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].disabled) {
+        select.removeChild(options[i]);
+      }
+    }
+
+    const date = document.getElementById('date').value;
+    const timeLabelInput = document.querySelector('.time-label-input');
+    console.log(date)
+    console.log("hello")
+    if (date !== '') {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', '/available_times?date=' + date, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+
+          response.availableTimes.forEach(function (time) {
+            const option = document.createElement('option');
+            option.value = time;
+            option.textContent = time;
+            select.appendChild(option);
+          });
+
+          select.style.display = 'block';
+          timeLabelInput.style.display = 'block';
+        }
+      };
+      xhr.send();
+      console.log("hello")
+    } else {
+      select.style.display = 'none';
+      timeLabelInput.style.display = 'none';
+    }
+  }
+  const dateField = document.getElementById('date');
+  dateField.addEventListener('change', updateAvailableTimes);
+  dateField.addEventListener('input', updateAvailableTimes);
+  
+</script>
+<html>
+<head>
+  <title>Barber Shop</title>
+</head>
+<body>
+  <img src="static/images/nunus_logo.PNG" alt="logo">
+  <h1>Book your appointment by filling the form below</h1>
+  <form method="POST">
+    {{ form.csrf_token }}
+    <label for="name">Full Name:</label>
+    <input type="text" name="name" id="name" required>
+    
+      <label for="date">Date:</label>
+      <div class="date-input">
+      {{ form.date(id="date") }}   
+    </div>
+    <div class="time-label-input">
+    <label for="time">Time:</label>
+    <select name="time" id="time">
+      {% for hour in range(8, 18) %}
+        {% for minute in ["00", "30"] %}
+          {% set current_time = hour ~ ":" ~ minute %}
+          {% if current_time in takenTimes %}
+            <option value="{{ current_time }}" class="unavailable" disabled>{{ current_time }}</option>
+          {% else %}
+            <option value="{{ current_time }}">{{ current_time }}</option>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </select>
+    </div>
+    <input type="submit" value="Submit">
+    <div id="time-result"></div>
+  </form>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Barber Shop</title>
+  <style>
+    /* CSS Styling */
+    body {
+      font-family: Century;
+      background-color: #222;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      width: 50%;
+      margin: 0 auto;
+      background-color: #333;
+      border: 1px solid #555;
+      border-radius: 5px;
+      padding: 20px;
+      font-size: 150%;
+    }
+
+    label {
+      display: block;
+      /* margin-bottom: 1%; */
+    }
+
+    select,
+    input[type="text"] {
+      width: 100%;
+      padding-bottom: 1%;
+      border: 1px solid #555;
+      border-radius: 3px;
+      background-color: #444;
+      color: #fff;
+      text-align: center;
+    }
+
+    select {
+      width: 100%;
+    }
+
+    input[type="submit"] {
+      display: block;
+      min-width: 100%;
+      padding: 8px;
+      background-color: #555;
+      color: #fff;
+      border: none;
+      /* border-radius: 3px; */
+      cursor: pointer;
+      margin-top: 2%;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #777;
+    }
+
+    .unavailable {
+      color: #999;
+    }
+
+    /* Media queries for responsive image */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Styling for the live query result */
+    #time-result {
+      margin-top: 2%;
+      color: #999;
+    }
+
+    .time-label-input {
+      display: none;
+    }
+    .unavailable {
+  color: #999;
+}
+/* CSS Styling for Date Input */
+/* .date-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+
+} */
+
+.date-input input[type="date"] {
+  /* min-width: 95%; */
+  /* padding: 8px; */
+  border: 1px solid #555;
+  border-radius: 3px;
+  background-color: #444;
+  /* font-size: 16px; */
+  min-width: 100%;
+  color:white;
+  text-align: center;
+  /* margin: auto; */
+}
+
+.form-container{
+  display:block;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center; 
+  /* margin: auto; */
+}
+
+/* Media Query for Responsive Date Input
+@media (max-width: 600px) {
+  .date-input {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .date-input input[type="date"] {
+    width: 100%;
+  }
+} */
+  </style>
+</head>
+<body>
+  <div class="form-container">
+  <img src="static/images/nunu_cover.jpg" alt="logo">
+  <h1>Book your appointment by filling the form below</h1>
+  <form method="POST">
+    {{ form.csrf_token }}
+    
+    <label for="name">Full Name:</label>
+    <input type="text" name="name" id="name" required>
+    
+    <label for="date">Date:</label>
+    <div class="date-input">
+      <input type="date" name="date" id="date">
+    </div>
+    
+    <div class="time-label-input">
+      <label for="time">Times Available:</label>
+      <select name="time" id="time"></select>
+    </div>
+    
+    <input type="submit" value="Submit">
+    <!-- <div id="time-result"></div> -->
+    </div>
+  </form>
+
+  <script>
+    function updateAvailableTimes() {
+      const select = document.getElementById('time');
+      const options = select.getElementsByTagName('option');
+      for (let i = options.length - 1; i >= 0; i--) {
+        select.removeChild(options[i]);
+      }
+    
+      const date = document.getElementById('date').value;
+      const timeLabelInput = document.querySelector('.time-label-input');
+    
+      if (date !== '') {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '/available_times?date=' + date, true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+    
+            response.availableTimes.forEach(function (time) {
+              const option = document.createElement('option');
+              option.value = time;
+              option.textContent = time;
+              select.appendChild(option);
+            });
+    
+            select.style.display = 'block';
+            timeLabelInput.style.display = 'block';
+          }
+        };
+        xhr.send();
+      } else {
+        select.style.display = 'none';
+        timeLabelInput.style.display = 'none';
+      }
+    }
+        const dateField = document.getElementById('date');
+        dateField.addEventListener('change', updateAvailableTimes);
+        dateField.addEventListener('input', updateAvailableTimes);
+      </script>
+</body>
+</html>

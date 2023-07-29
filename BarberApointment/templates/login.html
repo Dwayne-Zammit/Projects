@@ -1,0 +1,162 @@
+<style>
+
+    body {margin: 0%;
+    font-family: Arial;}
+    
+    form {
+      border: 3px solid #151515;
+    }
+    
+    /* Full-width inputs */
+    input[type=text], input[type=password] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    
+    /* Set a style for all buttons */
+    button {
+      background-color: #888;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    
+    /* Add a hover effect for buttons */
+    button:hover {
+      opacity: 0.8;
+    }
+    
+    /* Extra style for the cancel button (red) */
+    .cancelbtn {
+      width: auto;
+      padding: 10px 18px;
+      background-color: #f44336;
+    }
+    
+    /* Center the avatar image inside this container */
+    .imgcontainer {
+      padding-top:8%;
+      text-align: center;
+      margin: 24px 0 12px 0;
+      /* padding-left: 50%; */
+      /* justify-content: center; */
+    }
+    
+    /* Avatar image */
+    /* img.image {
+      width: 30%;
+      
+    } */
+    
+    /* Add padding to containers */
+    /* .container {
+      width:100%;
+      display:grid;
+      justify-content: center;
+    } */
+    
+    /* The "Forgot password" text */
+    span.psw {
+      float: right;
+      padding-top: 16px;
+    }
+    
+    form{display:flex;
+    justify-content: center;}
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+      span.psw {
+        display: block;
+        float: none;
+      }
+      .cancelbtn {
+        width: 100%;
+      }
+    }
+    body{background-color: #151515;}
+    
+    .all_text{color:white;
+    width: 65%;}
+    /* margin-left:30%; */
+    /* display:flex; */
+    /* padding-top:10%; */
+    /* align-items: center; */
+    /* justify-content: center;} */
+    
+    /* Add a black background color to the top navigation */
+    .topnav {
+      background-color: #888;
+      overflow: hidden;
+    }
+    
+    .topnav a {
+      float: left;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    
+    /* Change the color of links on hover */
+    .topnav a:hover {
+      background-color:#888;
+      color: black;
+      cursor: pointer;
+    }
+    
+    /* Add a color to the active/current link */
+    .topnav a.active {
+      background-color:#888;
+      color: white;
+    }
+    input
+    {text-align: center;}
+    
+    </style>
+    <html>
+    <head>
+      <link rel="shortcut icon" href=\static\images\nunu_cover.jpg" type="image/x-icon">
+      <title>
+        Login Page
+      </title>
+    </head>
+    <body>
+      <div class="topnav">
+        <a onclick="window.location.href='/home'">BookNow</a>
+        <a onclick="window.location.href='about_us'">About</a>
+        <a onclick="window.location.href='services.html'">Services</a>
+      </div>   
+
+    <form method="post">
+        <div class="all_text">
+        <div class="container">
+            <div class="imgcontainer">
+                <img src="\static\images\nunu_cover.jpg" width="100%" height="400px" alt="nunu_cover"/>
+                </div>
+          <p>{{ message }}</p>
+          <label for="uname"><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" name="username" required>
+      
+          <label for="psw"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="password" required>
+            
+          <label for="psw"><b>2FA Token</b></label>
+          <input type="text" placeholder="Enter token" name="token" required>
+          <button type="submit", name="submit",id="submit">Login</button>
+          <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+          </label>
+        </div>
+        </div>
+      </form> 
+    </body>
+    </html>

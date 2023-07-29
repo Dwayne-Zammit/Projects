@@ -1,0 +1,156 @@
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #333;
+  }
+  
+  .top-nav {
+    background-color: #222;
+    padding: 10px;
+  }
+  
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .logo {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+  }
+  
+  .nav-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  .nav-menu li {
+    margin-left: 20px;
+  }
+  
+  .nav-menu li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    color: #333;
+  }
+  
+  h1 {
+    color: #333;
+    text-align: center;
+  }
+  
+  .tiles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .tile {
+    width: 300px;
+    padding: 20px;
+    margin: 20px;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .tile img {
+    /* width: 100%; */
+    /* height: auto; */
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .tile h2 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .tile p {
+    color: #555;
+  }
+  .launch_lab_button {
+  background-color: #000000; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+
+  .launch_lab_button:hover {
+  background-color: #36454F; /* Green */
+  color: white;
+  cursor: pointer;
+    transition: 1;
+}
+
+.lab_description {
+    height:10%;
+}
+  
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Home</title>
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="nav-container">
+      <a href="home" logo><img src="\static\images\logo.png" alt="Your Logo" width="70" height="40"/></a>
+      <ul class="nav-menu">
+        <li style="margin-top:20%;"><a href="#">Logout </a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1>Lab Launcher Demo Labs</h1>
+    
+    <div class="tiles">
+      <div class="tile">
+        <img src="static/images/windows-10-mini-logo.jpg" alt="Image 1" width="150" height="150">
+        <h2>LAB #1: Managing Windows Settings</h2>
+        <p class="lab_description">Learn how to use Windows Settings to manage your system</p>
+        <button class="launch_lab_button" onclick="window.location.href='launch_lab';">Launch</button>        
+      </div>
+      <div class="tile">
+        <img src="static/images/linux.webp" alt="Image 2" width="150" height="150">
+        <h2>LAB #2: Managing Linux Users</h2>
+        <p class="lab_description">Learn User Management on Linux</p>
+        <button class="launch_lab_button" onclick="window.location.href='launch_lab';">Launch</button>
+      </div>
+      <div class="tile">
+        <img src="static/images/image_manipulation.jpg" alt="Image 3" width="150" height="150">
+        <h2>LAB #3: Image Manipulation with GIMP</h2>
+        <p class="lab_description">Manipulate images with GIMP</p>
+        <button class="launch_lab_button" onclick="window.location.href='launch_lab';">Launch</button>
+      </div>
+    </div>
+    </div>
+  </div>
+</body>
+</html>

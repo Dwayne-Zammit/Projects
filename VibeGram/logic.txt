@@ -1,0 +1,16 @@
+    top_left_x, top_left_y = 864, 478
+    bottom_right_x, bottom_right_y = 1014, 616
+
+948,584
+full_image
+
+
+573,749
+cropped_image
+
+
+1920-573
+
+1920 - 864= 1056
+1080 - 478 = 678
+

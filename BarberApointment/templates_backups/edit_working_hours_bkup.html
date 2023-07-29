@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Working Hours</title>
+  <style>
+    /* CSS Styling */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #222;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      width: 60%;
+      margin: 0 auto;
+      background-color: #333;
+      border: 1px solid #555;
+      border-radius: 5px;
+      padding: 20px;
+      font-size: 150%;
+    }
+
+    label {
+      display: block;
+      margin-top: 1%;
+      margin-bottom: 0.5%;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid #555;
+      border-radius: 3px;
+      background-color: #444;
+      color: #fff;
+      text-align: center;
+      height: 30px;
+      color: black;
+      font-weight: bold;
+    }
+
+    input[type="submit"] {
+      display: block;
+      min-width: 100%;
+      padding: 8px;
+      background-color: #555;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      margin-top: 4%;
+      height: 50px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #777;
+    }
+
+    /* Media queries for responsive image */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Edit Working Hours</h1>
+  <form method="POST">
+
+    <label for="day">Day:</label>
+    <input type="text" name="day" id="day" value="{{ working_hours[1] }}" readonly>
+    <label for="start_time">Start Time:</label>
+    <input type="text" name="start_time" id="start_time" value="{{ working_hours[2] }}">
+    <label for="end_time">End Time:</label>
+    <input type="text" name="end_time" id="end_time" value="{{ working_hours[3] }}">
+    <input type="submit" value="Save Changes">
+  </form>
+</body>
+</html>

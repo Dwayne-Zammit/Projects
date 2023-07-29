@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fafafa;
+}
+h1, h2 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+a {
+  text-decoration: none;
+  color: #3897f0;
+}
+ul {
+  list-style: none;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  align-items: center;
+}
+
+/* Header Styles */
+header {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav ul {
+  display: flex;
+}
+nav ul li {
+  margin-right: 15px;
+}
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Stories Styles */
+.stories {
+  background-color: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.stories h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+.stories ul {
+  display: flex;
+}
+.stories ul li {
+  margin-right: 10px;
+}
+.stories ul li:last-child {
+  margin-right: 0;
+}
+.stories ul li a {
+  display: block;
+  border: 2px solid #3897f0;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 83px;
+  height: 75px;
+}
+.stories ul li a img {
+  width: 100%;
+  height: 100%;
+}
+
+/* Posts Styles */
+.posts {
+  padding: 10px;
+}
+.posts h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+.posts ul li {
+  margin-bottom: 20px;
+}
+.posts ul li a {
+  display: block;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.posts ul li a img {
+  width: 100%;
+  height: 100%;
+
+}
+.posts ul li a p {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.posts {
+  max-width: 50%;
+  margin-left:25%;
+}
+
+/* Footer Styles */
+footer {
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  margin-top: 20px;
+  position:fixed;
+  bottom:0%;
+  width:100%;
+}
+.search-button {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 3px 5px;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.search-button:hover {
+  background-color: grey;
+  color:black;
+}
+
+.grid-item {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Add this line to maintain the image aspect ratio */
+  display: block;
+  justify-content: center;
+}
+
+.grid-item:hover {
+  cursor: pointer;
+  opacity: 80%;
+}
+
+
+.profile-picture {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    margin-bottom:10px;
+  }
+  
+.profile-picture:hover {
+  cursor: pointer;
+  opacity:90%;
+}
+
+.prof-pic-username {
+  display:flex;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+.prof-pic-username:hover {
+  cursor: pointer;
+}
+.post-username{
+  margin-top:2%;
+}
+
+/* .add_story{
+  opacity: 10%;
+} */
+
+.add_story {
+      position: relative;
+      display: inline-block;
+    }
+
+.plus-sign {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #0096f6;
+  color: white;
+  font-size: 24px;
+  padding: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right:10%;
+  margin-bottom: 20%;
+}
+/* .upload-form {
+  opacity:0%;
+ } */
+
+ /* .upload-form:hover {
+  opacity:100%;
+ }  */
+
+ .prof_pic_storie{
+  display:block;
+ }
+
+ .storie-username {
+  padding-left:15%;
+ }
+
+
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var imageUpload = document.getElementById('add_story');
+      imageUpload.addEventListener('change', function() {
+        this.form.submit();
+      });
+    });
+</script>
+<script>
+    // document.addEventListener('DOMContentLoaded', function() {
+    //   var imageUpload = document.getElementById('image-upload-posts');
+    //   imageUpload.addEventListener('change', function() {
+    //     this.form.submit();
+    //   });
+    // });
+</script>
+<html>
+<head>
+	<title>VibeGram</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+        <a href="/home">
+            <img src="/static/images/logo.png" alt="Home" style="width: 150px; height: 35px;">
+        </a>
+        <div class="search">
+        <form class="upload-form" action="{{ url_for('search_profile', profile_username='None') }}" method="POST" enctype="multipart/form-data">
+        {% if user_does_not_exist == "own_user"%}
+            <div class="message">
+            {{ user }} is your own username
+            </div>
+        {% elif user_does_not_exist %}
+        <div class="message">
+        {{ user }} does not exist
+        </div>
+        {% endif %} 
+        <input name="search_username" placeholder="Search username"></input>
+        <button type="submit" class="search-button">Search</button>
+        </form>
+        </div>
+		<nav>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Explore</a></li>
+				<li><a href="/profile">Profile</a></li>
+				<li><a href="#">Settings</a></li>
+                <li><a href="/logout">Logout</a></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<section class="stories">
+			<h2>Stories</h2>
+			<ul>
+        <div class="add_story">
+        <label for="add_story" class="custom-image-upload">  
+        <li><a href="#"><img  src="/static/profile_pictures/{{profile_picture}}" alt="Add Story"></a></li>
+        <span class="plus-sign">+</span>
+        </label>
+        <div class="upload">
+          <form class="upload-form" action="{{ url_for('add_story') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" id="add_story" accept="image/*" required style="display:none;">
+            <button type="submit" style="display:none;">Upload Image</button>
+          </div>
+            <p class="Add Story">Add Story</p>
+          </div>      
+        </form>
+        
+        
+        </div>
+        {% for storie in stories %}
+        <div class="prof_pic_storie">
+				<!-- <li><a href="/static/stories/{{storie[1]}}"><img src="/static/profile_pictures/{{storie[2]}}" alt="Story"></a></li> -->
+        <li><a href="/stories/start_with={{storie[0]}}"><img src="/static/profile_pictures/{{storie[2]}}" alt="Story"></a></li>
+				<!-- <li><a href="#"><img src="/static/images/jeff_bezos.jpg" alt="Story 2"></a></li>
+				<li><a href="#"><img src="/static/images/ira_losco.jpg" alt="Story 3"></a></li>
+				<li><a href="#"><img src="/static/images/jacqui_losco.jpg" alt="Story 4"></a></li>
+				<li><a href="#"><img src="/static/images/kendall_jenner.webp" alt="Story 5"></a></li> -->
+      <p class="storie-username">{{storie[0]}}</p>
+      </div>
+      {% endfor %}
+		</section>
+		<section class="posts">
+			<h2>Posts</h2>
+      {% for image_filename in posts_images %}
+      <ul>
+				<li>
+          <!-- <p>{{ image_filename[0] }}</p> -->
+          <!-- <form class="upload-form" action="{{ url_for('Search_profile', profile_username=image_filename[0]) }}" method="POST" enctype="multipart/form-data">   -->
+          <div class="prof-pic-username">
+          <label for="image-upload" class="custom-image-upload">
+          <a class = profile-picture href="{{ url_for('Search_profile', profile_username=image_filename[0]) }}" style="border:none;background-color: #fafafa;">
+          <img class="profile-picture" src="/static/posts/{{ image_filename[2] }}" alt="Profile Picture">
+          </a>
+          <!-- </form> -->
+          </label>
+          <p class="post-username">{{ image_filename[0] }}</p>
+          </div>
+					<a href="/view_photo/username_image_name={{ image_filename[0] }},{{ image_filename[1] }}"><img class="grid-item" src="/static/posts/{{ image_filename[1] }}" alt="Post">
+          <p>This is the caption for Post</p>
+          </a>
+        </li>
+      {% endfor %}
+		</section>
+	</main>
+	<footer>
+		<p>Copyright &copy; VibeGram
+	</footer>
+</body>
+</html>

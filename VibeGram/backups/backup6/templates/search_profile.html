@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  /* Header Styles */
+
+.top_nav {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav ul {
+  display: flex;
+}
+nav ul li {
+  margin-right: 15px;
+}
+nav ul li a:hover {
+  text-decoration: underline;
+}
+ul li a {
+  display: block;
+  border: 2px solid #3897f0;
+  overflow: hidden;
+  /* width: 60px;
+  height: 60px; */
+}
+
+  
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #dbdbdb;
+  }
+  
+  .profile-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  
+  .username-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .username {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .stats {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .bio {
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  .grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px; /* Adjust the gap size between grid items as needed */
+  padding: 20px;
+  /* margin-left: auto; Center the grid container horizontally */
+  /* margin-right: auto; */
+  /* display:grid; */
+  max-width: 5%; /* Limit the grid container width */
+  /* justify-content: center; */
+  margin-left: 10%; /*Center the grid container horizontally
+  /* margin-right: 10%; */
+  /* max-width: 800px; */
+}
+
+.image-upload {
+display: inline-block;
+padding: 8px 16px;
+background-color: black;
+color: white;
+text-align: center;
+text-decoration: none;
+font-size: 16px;
+border-radius: 4px;
+cursor: pointer;
+transition: background-color 0.2s;
+}
+
+.grid-item {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Add this line to maintain the image aspect ratio */
+  display: block;
+}
+.follow-button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom:5%;
+}
+
+.follow-button:hover {
+    background-color: grey;
+}
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var imageUpload = document.getElementById('image-upload');
+      imageUpload.addEventListener('change', function() {
+        this.form.submit();
+      });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var imageUpload = document.getElementById('image-upload-posts');
+      imageUpload.addEventListener('change', function() {
+        this.form.submit();
+      });
+    });
+</script>      
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeGram | Profile</title>
+</head>
+<body>
+<div class="top_nav">
+    <a href="/home">
+    <img src="static/images/logo.png" alt="Home"style="width: 150px; height: 35px">
+    </a>
+</div>
+  <header>
+    <div class="profile-info">
+    <!-- <img class="profile-picture" src="{{image}}" alt="Profile Picture"> -->
+      <label for="image-upload" class="custom-image-upload">
+      <img class="profile-picture" src="{{image}}" alt="Profile Picture">
+      </label>
+      <div class="username-stats">
+        {% if follow_button != "False"%}
+        <form class="upload-form" action="{{ url_for('follow_user', profile_username=username) }}" method="POST" enctype="multipart/form-data">
+        <h2 name="profile_username" class="username">{{username}}</h2>
+        <button type="submit" class="follow-button">Follow</button>
+        </form>
+        
+        {% elif follow_button == "False"%}
+        <form class="upload-form" action="{{ url_for('unfollow_user', profile_username=username) }}" method="POST" enctype="multipart/form-data">
+          <h2 name="profile_username" class="username">{{username}}</h2>
+          <button type="submit" class="follow-button">Unfollow</button>
+          </form>
+        {% endif %}
+        </form>
+        <div class="stats">
+          <span class="posts-count">{{ posts }} </span>
+          <span class="followers-count">{{ followers }}</span>
+          <span class="following-count">{{ following }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="bio">
+      <p>Hi, I'm a VibeGram user! Welcome to my profile.</p>
+    </div>
+  </header>
+    <main>
+    <div class="grid-container">
+      <!-- <img class="grid-item" src="post1.jpg" alt="Post 1">
+      <img class="grid-item" src="post2.jpg" alt="Post 2">
+      More grid items for posts -->
+      {% for image_filename in posts_images %}
+      <img class="grid-item" src="/static/posts/{{ image_filename }}" alt="Post" style="width:600px;height:550px">
+      {% endfor %}
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<style>
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0; 
+    /* max-width:50%; */
+    
+    /* width: 200%; */
+    /* height: 100%; */
+}
+
+ul{
+    width:100%;
+/* max-width:50%;} */
+}
+
+li{
+    list-style-type: none;}
+
+#messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    width:200%;
+
+}
+#message-form {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+/* #input {
+    flex: 1;
+    margin-right: 10px;
+    /* width:100%; */
+    /* margin-bottom:10%;
+}     */
+
+.profile-picture {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    margin-bottom:10px;
+    /* box-shadow: 0 0px 0px rgba(255, 255, 255, 0) */
+  }
+
+
+.profile-picture:hover {
+  cursor: pointer;
+  opacity:90%;
+}
+
+.prof-pic-username {
+  display:flex;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  align-items:center;
+  width:100%;
+
+}
+.prof-pic-username:hover {
+  cursor: pointer;
+}
+
+.message {
+        display: inline-block;
+        background-color: skyblue;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        max-width: 80%;
+        word-wrap: break-word;
+    }
+.message p {
+    margin: 0;
+}
+.message-date {
+    font-size: 0.8em;
+    opacity: 0.8;
+    margin-top: 3px;
+}
+
+.username-message-container{
+    display:block;
+    width:100%;
+}
+
+#chatContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.messageContainer {
+    width: 50%;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.message {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    text-align: left;
+}
+
+.user1 {
+    background-color: lightblue;
+}
+
+.user2 {
+    background-color: lightgreen;
+}
+
+.grid-container{
+    display: grid;
+    justify-content: center;
+    /* align-items: center; */
+    position:relative;
+    border: 1px solid black;
+    height:100%;
+} 
+
+.input_message {
+   width: 200%; 
+}
+</style>    
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Private Messaging</title>
+</head>
+<body>
+    
+    <div class="grid-container">
+        <!-- <div id="chatContainer">
+    {% if username == "own" %}    
+    <div id="user1Messages" class="messageContainer left">
+    {% else %}    
+    <div id="user2Messages" class="messageContainer right">  
+    {% endif %}    -->   
+    <ul id="messages">
+    {% for message in previous_messages %}
+        
+        {% if message[0] != username %}
+        <!-- <li style="margin-left:90%;"> -->
+        <div class="prof-pic-username" style=text-align:right;">    
+        <div class="username-message-container">
+            <p id="message-username" class="message-username">{{ message[0] }}</p>
+            <div class="message">
+            <p class="message-date">{{ message[2] }}</p>
+            <p>{{ message[1] }}</p>
+        </div>
+     </div>
+        <label for="image-upload" class="custom-image-upload">
+            <a class = profile-picture href="{{ url_for('Search_profile', profile_username=message[0]) }}">
+            <img class="profile-picture" src="/static/posts/{{ message[3] }}" alt="Profile Picture">
+            </a>
+        </label>
+        
+        </div>
+        </li>
+        {% else %}
+        <li>
+        <div class="prof-pic-username">
+        <label for="image-upload" class="custom-image-upload">
+        <a class = profile-picture href="{{ url_for('Search_profile', profile_username=message[0]) }}">
+        <img class="profile-picture" src="/static/posts/{{ message[3] }}" alt="Profile Picture">
+        </a>
+        </label>
+        <div class="username-message-container">
+        <p id="message-username" class="message-username">{{ message[0] }}</p>
+        <div class="message">
+        <p class="message-date">{{ message[2] }}</p>
+        <p>{{ message[1] }}</p>
+        </div>
+        </div>
+        </li>
+        {% endif %} 
+    {% endfor %}    
+    
+    <br>
+    <p id="sender">{{ sender }}</p>
+    <!-- </div> -->
+    <!-- </div> -->
+
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            var room = "{{ room }}";    
+            socket.on('connect', function() {
+                console.log('Connected');
+                socket.emit('join', room);
+            }); 
+            socket.on('message', function(data) {
+                var message = data.text;
+                var sender = data.sender;
+                var username = ('{{username}}')
+                console.log(username)
+                var profile_picture = data.profile_picture;
+                if (username === sender) {
+                // $('#messages').append('<li><strong>' + sender + ':</strong> ' + message + profile_picture + '</li>');
+                $('#messages').append('<li>\
+                <div class="prof-pic-username">\
+                <label for="image-upload" class="custom-image-upload">\
+                <a class = profile-picture href="{{ url_for("Search_profile", profile_username=' + sender + ') }}" style="border:none;background-color: #fafafa;">\
+                <img class="profile-picture" src="/static/posts/' + profile_picture + '" alt="Profile Picture">\
+                </a>\
+                </label><div class="username-message-container">\
+                <p class="message-username">' + sender + '</p>\
+                <div class="message">\
+                <p class="message-date">04/16/2023 03:00</p>\
+                <p>' + message + '</p>\
+                </div></div>\
+                </li>');
+            } else {$('#messages').append('<div id="user2"\
+                <li>\
+                <div class="prof-pic-username" style="text-align:right;">\
+                </label><div class="username-message-container">\
+                <p id="message-username "class="message-username">' + sender + '</p>\
+                <div class="message">\
+                <p class="message-date">04/16/2023 03:00</p>\
+                <p>' + message + '</p>\
+                </div>\
+                <label for="image-upload" class="custom-image-upload">\
+                <a class = profile-picture href="{{ url_for("Search_profile", profile_username=' + sender + ') }}" style="border:none;background-color: #fafafa;">\
+                <img class="profile-picture" src="/static/posts/' + profile_picture + '" alt="Profile Picture">\
+                </a>\
+                </div>\
+                </li>');}
+                $('#messages').scrollTop($('#messages')[0].scrollHeight);
+            }); 
+            $('#send-button').on('click', function() {
+                var message = $('#input').val();
+                var sender = $('#sender').val();
+                socket.emit('message', message, room, sender);
+                $('#input').val('');
+            }); 
+            $('#input').keypress(function(e) {
+                if (e.which == 13) { // Enter key
+                    $('#send-button').click();
+                }
+            }); 
+            // Optional: handle leaving the room
+            $(window).on('beforeunload', function() {
+                socket.emit('leave', room);
+            });
+        });
+    </script>
+    </ul>
+    <div class="input_message">
+    <input id="input" type="text" style="width:100%;" placeholder="Type your message...">
+    <button style="width:100%;" id="send-button">Send</button>
+    </div>
+      
+</div>
+</body>
+</html>

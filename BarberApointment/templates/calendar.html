@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Calendar</title>
+    <!-- Include FullCalendar CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+
+    <style>
+        /* Custom styles for dark theme */
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: Arial;
+        }
+    
+        #calendar {
+            background-color: #333;
+            color: #fff;
+            max-width: 90%; /* Adjust the maximum width as needed */
+            margin: 0 auto; /* Center the calendar horizontally */
+        }
+    
+        .fc-unthemed .fc-widget-header {
+            background-color: #333;
+            color: #fff;
+        }
+    
+        .fc-unthemed .fc-content {
+            color: #fff;
+        }
+    
+        .fc-unthemed .fc-event,
+        .fc-unthemed .fc-agenda .fc-event-time {
+            background-color: #666;
+            border-color: #666;
+            cursor: pointer;
+        }
+    
+        .fc-unthemed .fc-event:hover {
+            background-color: #888;
+            border-color: #888;
+        }
+    
+        .fc-unthemed .fc-today {
+            background-color: #555;
+        }
+    
+        /* Custom modal styles */
+        #appointmentModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px;
+            z-index: 1000;
+        }
+    
+        #appointmentModal .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .navbar {
+              background-color: #222;
+              color: #fff;
+              padding: 10px;
+            }
+        
+            .nav-list {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+            }
+        
+            .nav-item {
+              display: inline-block;
+              margin-right: 10px;
+            }
+        
+            .nav-item a {
+              color: #fff;
+              text-decoration: none;
+              padding: 5px 10px;
+            }
+        
+            .nav-item a:hover {
+              background-color: #555;
+            }
+        .button_container{display:flex; 
+            justify-content: center;
+            margin-top:2%;
+        }  
+    
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            /* Adjust calendar layout for small screens */
+            #calendar {
+                font-size: 12px;
+            }
+        }
+    
+        @media (min-width: 768px) and (max-width: 1200px) {
+            /* Adjust calendar layout for medium screens */
+            #calendar {
+                font-size: 14px;
+            }
+        }
+    
+        @media (min-width: 1200px) and (max-width: 1920px) {
+            /* Adjust calendar layout for large screens (up to 1920px width) */
+            #calendar {
+                font-size: 16px;
+            }
+        }
+    
+        @media (min-width: 1920px) {
+            /* Adjust calendar layout for 4K screens (minimum 1920px width) */
+            #calendar {
+                font-size: 18px;
+            }
+        }
+
+    .footer {
+       background-color: #333;
+       /* padding: 10px; */
+       text-align: center;
+       color: #fff;
+       position: absolute;
+       bottom: 0;
+       width: 100%;
+       margin-right:20%;
+        } 
+    button {
+    background-color: #363636;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #555555;
+    }
+    </style>
+</head>
+<nav class="navbar">
+    <ul class="nav-list">
+      <li class="nav-item"><a href="/about_us">About</a></li>
+      <li class="nav-item"><a href="/services.html">Services</a></li>
+      <li class="nav-item"><a href="/">Book Now</a></li>
+    </ul>
+  </nav>
+<body>
+    <h1>Appointment Calendar</h1>
+    <div id="calendar"></div>
+
+    <div id="appointmentModal">
+        <span class="close">Close</span>
+        <h2 id="modalTitle"></h2>
+        <p id="modalDescription"></p>
+        <button id="deleteButton">Delete Booking</button>
+    </div>
+
+    <!-- Include FullCalendar JavaScript dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+
+    <script>
+$(document).ready(function() {
+    // Fetch appointments from the server
+    $.ajax({
+        url: '/get_appointments',
+        method: 'GET',
+        success: function(data) {
+            // Convert date strings to JavaScript Date objects
+            data.forEach(function(appointment) {
+                if (appointment.start) {
+                    var startParts = appointment.start.split(/[- :]/);
+                    appointment.start = new Date(startParts[0], startParts[1] - 1, startParts[2], startParts[3], startParts[4]);
+                }
+                if (appointment.end) {
+                    var endParts = appointment.end.split(/[- :]/);
+                    appointment.end = new Date(endParts[0], endParts[1] - 1, endParts[2], endParts[3], endParts[4]);
+                }
+            });
+
+            // Initialize FullCalendar with the appointment data
+            $('#calendar').fullCalendar({
+                events: data,
+                themeSystem: 'standard', // Use default theme
+                timezone: 'local', // Use browser's time zone
+                timeFormat: 'h:mm A', // Display time in AM/PM format
+                eventClick: function(calEvent, jsEvent, view) {
+                    // Display appointment details in modal
+                    $('#modalTitle').text(calEvent.title);
+                    $('#modalDescription').text(calEvent.description);
+                    $('#deleteButton').data('appointment-date', calEvent.start);
+                    $('#deleteButton').data('fullname', calEvent.full_name); // Assign the full name to the data attribute
+                    $('#appointmentModal').show();
+                }
+            });
+
+            // Close modal when close button is clicked
+            $('.close').click(function() {
+                $('#appointmentModal').hide();
+            });
+        }
+    });
+
+    // Delete appointment when delete button is clicked
+    $('#deleteButton').click(function() {
+        if (confirm('Are you sure you want to delete this appointment?')) {
+            var appointmentDateTime = $(this).data('appointment-date');
+            var fullName = $('#modalTitle').text(); // Retrieve the full name from the modal
+            var deleteURL = '/admin/delete_appointment/' + appointmentDateTime + '/' + fullName;
+            $.ajax({
+                url: deleteURL,
+                method: 'POST',
+                success: function(response) {
+                    alert('Appointment deleted successfully.');
+                    location.reload()
+                    // Reload the calendar or perform any other necessary action
+                },
+                error: function(xhr, status, error) {
+                    alert('Failed to delete appointment.');
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    });
+});
+    </script>
+</body>
+<div class="button_container">
+<form action="/admin/change_working_hours" method="get">
+    <button type="submit">Weekly Working Hours</button>
+  </form>
+</div>  
+<footer class="footer">
+    <p>&copy; Nunu's Barber Shop. All rights reserved.</p>
+  </footer>
+</html>

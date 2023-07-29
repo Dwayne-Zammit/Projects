@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <style>
+    /* Reset default styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Global styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #222;
+      color: #fff;
+      /* padding: 20px; */
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .navbar {
+      background-color: #222;
+      color: #fff;
+      padding: 10px;
+      padding: 20px;
+    }
+
+    .nav-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .nav-item a {
+      color: #fff;
+      text-decoration: none;
+      padding: 5px 10px;
+    }
+
+    .nav-item a:hover {
+      background-color: #555;
+    }
+
+    .hero {
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .about-section {
+      padding: 40px 0;
+    }
+
+    .section-title {
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .section-description {
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .directions-button {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .directions-button a {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+    }
+
+    .footer {
+       background-color: #333;
+       padding: 10px;
+       text-align: center;
+       color: #fff;
+       position: fixed;
+       bottom: 0%;
+       width: 100%;
+     } 
+
+    .cover-image {
+      display: flex;
+      justify-content: center;
+      margin-top: 2%;
+    }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 36px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .section-description {
+        font-size: 16px;
+      }
+
+      .cover-image img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cover-image {
+        margin-top: 10%;
+      }
+
+      .hero-title {
+        font-size: 24px;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      .section-description {
+        font-size: 14px;
+      }
+
+      .footer {
+        padding: 10px;
+        position:relative;
+      }
+    }
+
+    #map {
+      height: 400px;
+    }
+
+    .contact-table {
+      margin-top: 2%;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .contact-table th,
+    .contact-table td {
+      padding: 10px;
+      border: 1px solid #fff;
+    }
+
+    .contact-table th {
+      background-color: #333;
+      color: #fff;
+      text-align: left;
+    }
+
+    .contact-table td {
+      text-align: center;
+    }
+
+    .contact-table a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .contact-table a:hover {
+      text-decoration: underline;
+    }
+
+    table {
+  border-spacing: 1;
+  border-collapse: collapse;
+  /* background: white; */
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+table * {
+  position: relative;
+}
+table td,
+table th {
+  padding-left: 8px;
+}
+table thead tr {
+  height: 60px;
+  background: rgb(55, 55, 55);
+  font-size: 16px;
+}
+table tbody tr {
+  height: 48px;
+  border-bottom: 1px solid #e3f1d5;
+}
+table tbody tr:last-child {
+  border: 0;
+}
+table td,
+table th {
+  text-align: left;
+}
+table td.l,
+table th.l {
+  text-align: right;
+}
+table td.c,
+table th.c {
+  text-align: center;
+}
+table td.r,
+table th.r {
+  text-align: center;
+}
+
+@media screen and (max-width: 35.5em) {
+  table {
+    display: block;
+  }
+  table > *,
+table tr,
+table td,
+table th {
+    display: block;
+  }
+  table thead {
+    display: none;
+  }
+  table tbody tr {
+    height: auto;
+    padding: 8px 0;
+  }
+  table tbody tr td {
+    padding-left: 45%;
+    margin-bottom: 12px;
+  }
+  table tbody tr td:last-child {
+    margin-bottom: 0;
+  }
+  table tbody tr td:before {
+    position: absolute;
+    font-weight: 700;
+    width: 40%;
+    left: 10px;
+    top: 0;
+  }
+}
+blockquote {
+  /* color: white; */
+  text-align: center;
+}  
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5">
+<body>
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li class="nav-item"><a href="/about_us">About</a></li>
+      <li class="nav-item"><a href="/services">Services</a></li>
+      <li class="nav-item"><a href="/">Book Now</a></li>
+    </ul>
+  </nav>
+  <div class="cover-image">
+    <img src="static/images/nunu_cover.jpg" alt="logo">
+  </div>
+
+  <section class="about-section">
+    <div class="container">
+      
+      <h2 class="section-title"></h2>
+      <table class="contact-table">
+        <tr>
+          <th>Contact Information</th>
+          <th>Social Media</th>
+        </tr>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td>Email:</td>
+                <td>lukenunu14@gmail.com</td>
+              </tr>
+              <tr>
+                <td>Phone:</td>
+                <td>7935 3327</td>
+              </tr>
+              <tr>
+                <td>Opening Hours:</td>
+                <td>Tuesday-Saturday, 08:00-18:00</td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <a href="https://www.facebook.com/nunusbarbershop20/" target="_blank">
+              <img src="/static/images/facebook_icon.png" alt="Facebook" style="width: 40px; height: 40px;">
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div id="map" style="width:100%;"></div>
+      <div class="directions-button">
+        <a href="https://www.google.com/maps/dir//35.865381185584944,14.517696531200352" target="_blank">Get Directions</a>
+      </div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      var map = L.map('map').setView([35.865381185584944, 14.517696531200352], 15);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        maxZoom: 18,
+      }).addTo(map);
+      L.marker([35.865381185584944, 14.517696531200352]).addTo(map);
+    </script>
+  </section>
+  <footer class="footer">
+    <p>&copy; Nunu's Barber Shop. All rights reserved.</p>
+  </footer>
+</body>
+</html>

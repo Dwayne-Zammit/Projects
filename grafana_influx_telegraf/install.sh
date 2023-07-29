@@ -1,0 +1,1 @@
+python ./installation_files/main.py

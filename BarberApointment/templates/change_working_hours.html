@@ -1,0 +1,264 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <title>Working Hours</title>
+  <style>
+    body {
+      background-color: #262626;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      /* margin: 0; */
+      padding: 20px;
+      /* display: flex; */
+      /* align-items: center;
+      justify-content: center; */
+      margin-top:3%;
+    }
+
+    table {
+      width: 100%;
+      max-width: 600px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #555555;
+      text-align: left;
+    }
+
+    th {
+      background-color: #333333;
+    }
+
+    td:first-child {
+      font-weight: bold;
+    }
+
+    .edit-button {
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .edit-button:hover {
+      background-color: #0056b3;
+    }
+
+    .save-button {
+      background-color: #28a745;
+      color: #ffffff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .save-button:hover {
+      background-color: #218838;
+    }
+
+    .cancel-button {
+      background-color: #dc3545;
+      color: #ffffff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cancel-button:hover {
+      background-color: #c82333;
+    }
+
+    .time-input {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .time-input input {
+      width: 100%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-size: 16px;
+      border: 1px solid #555555;
+      border-radius: 4px;
+      background-color: #222222;
+      color: #ffffff;
+    }
+
+    .date-input {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .date-input input {
+      width: 100%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-size: 16px;
+      border: 1px solid #555555;
+      border-radius: 4px;
+      background-color: #222222;
+      color: #ffffff;
+    }
+
+    .navbar {
+      background-color: #222;
+      color: #fff;
+      padding: 10px;
+      padding: 20px;
+    }
+
+    .nav-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .nav-item a {
+      color: #fff;
+      text-decoration: none;
+      padding: 5px 10px;
+    }
+
+    .nav-item a:hover {
+      background-color: #555;
+    }
+
+    @media (max-width: 480px) {
+      table {
+        max-width: 100%;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li class="nav-item"><a href="/about_us">About</a></li>
+      <li class="nav-item"><a href="/services.html">Services</a></li>
+      <li class="nav-item"><a href="/">Book Now</a></li>
+    </ul>
+  </nav>
+</head>
+<body>
+    <table>
+        <tr>
+          <th>Day</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Actions</th>
+        </tr>
+        {% for row in working_hours %}
+        <tr>
+          <td>{{ row[1] }}</td>
+          <td>{{ row[2] }}</td>
+          <td>{{ row[3] }}</td>
+          <td>
+            <form action="{{ url_for('edit_working_hours') }}" method="GET">
+              <input type="hidden" name="id" value="{{ row[0] }}">
+              <input type="submit" value="Edit">
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+  <script>
+    const editWorkingHour = (button) => {
+      const row = button.parentNode.parentNode;
+      const startTimeCell = row.querySelector('.start-time');
+      const startTime = startTimeCell.textContent;
+
+      // Hide the edit button and show the save and cancel buttons
+      button.style.display = 'none';
+      row.querySelector('.save-button').style.display = 'inline-block';
+      row.querySelector('.cancel-button').style.display = 'inline-block';
+
+      // Hide the start time text and show the start time input
+      startTimeCell.style.display = 'none';
+      const startTimeInput = row.querySelector('.start-time-input');
+      startTimeInput.style.display = 'block';
+      startTimeInput.value = startTime;
+
+      // Initialize the Flatpickr date picker on the start time input
+      flatpickr(startTimeInput, {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: 'h:i K',
+        minuteIncrement: 15
+      });
+    };
+
+    const saveWorkingHour = (button) => {
+      const row = button.parentNode.parentNode;
+      const startTimeCell = row.querySelector('.start-time');
+      const startTimeInput = row.querySelector('.start-time-input');
+
+      // Update the start time text with the new value
+      startTimeCell.textContent = startTimeInput.value;
+
+      // Hide the save and cancel buttons
+      button.style.display = 'none';
+      row.querySelector('.cancel-button').style.display = 'none';
+
+      // Show the edit button and hide the start time input
+      row.querySelector('.edit-button').style.display = 'inline-block';
+      startTimeInput.style.display = 'none';
+      startTimeCell.style.display = 'table-cell';
+
+      // Send an AJAX request to update the start time in the database
+      const workingHourId = row.dataset.id;
+      const url = `/update_working_hour/${workingHourId}`;
+      const data = {
+        start_time: startTimeInput.value
+      };
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log('Start time updated successfully');
+          } else {
+            console.log('Failed to update start time');
+          }
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+    };
+
+    const cancelEditing = (button) => {
+      const row = button.parentNode.parentNode;
+      const startTimeCell = row.querySelector('.start-time');
+      const startTimeInput = row.querySelector('.start-time-input');
+
+      // Hide the save and cancel buttons
+      button.style.display = 'none';
+      row.querySelector('.save-button').style.display = 'none';
+
+      // Show the edit button and hide the start time input
+      row.querySelector('.edit-button').style.display = 'inline-block';
+      startTimeInput.style.display = 'none';
+      startTimeCell.style.display = 'table-cell';
+    };
+  </script>
+</body>
+</html>

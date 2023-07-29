@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<style>
+    body {
+        display: flex;
+        /* flex-direction: column-reverse; */
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+    }
+    
+    ul {
+        width: 100%;
+    }
+    
+    li {
+        list-style-type: none;
+    }
+    
+    #messages {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 10px;
+        width: 200%;
+        display:flex;
+        flex-direction: column-reverse;
+    }
+    
+    #message-form {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: #f1f1f1;
+    }
+    
+    .profile-picture {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .profile-picture:hover {
+        cursor: pointer;
+        opacity: 90%;
+    }
+    
+    .prof-pic-username {
+        display: flex;
+        font-family: Arial, Helvetica, sans-serif;
+        cursor: pointer;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .prof-pic-username:hover {
+        cursor: pointer;
+    }
+    
+    .message {
+        display: inline-block;
+        background-color: skyblue;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        max-width: 80%;
+        word-wrap: break-word;
+    }
+    
+    .message p {
+        margin: 0;
+    }
+    
+    .message-date {
+        font-size: 0.8em;
+        opacity: 0.8;
+        margin-top: 3px;
+    }
+    
+    .username-message-container {
+        display: block;
+        width: 100%;
+    }
+    
+    .grid-container {
+        display: grid;
+        justify-content: center;
+        position: relative;
+        /* border: 1px solid black; */
+        height: 90%;
+        width: 100%;
+        /* max-width: 1200px; Set a maximum width for the container */
+        margin: 0 auto; /* Center the container on larger screens */
+        padding-right:15%;
+    }
+    
+    .input_message {
+        width: 200%;
+    }
+
+    .top_nav {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+nav ul {
+  display: flex;
+}
+nav ul li {
+  margin-right: 15px;
+}
+nav ul li a:hover {
+  text-decoration: underline;
+  opacity: 80%;;
+}
+ul li a {
+  display: block;
+  /* border: 2px solid #3897f0; */
+  overflow: hidden;
+  /* width: 60px;
+  height: 60px; */
+}
+    
+    /* li {
+    width: 200%;
+    /* max-width: 90%; Set a maximum width for the ul container
+    margin: 0 auto; Center the ul container
+} */
+    /* Media query for smaller screens */
+    @media (max-width: 767px) {
+        .grid-container {
+            padding: 0 10px; /* Add padding on smaller screens */
+            padding-right:15%;
+        }
+    }
+    </style>    
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Private Messaging</title>
+</head>
+<body>
+    <div class="top_nav">
+        <a href="/home">
+            <img src="/static/images/logo.png" alt="Home" style="width: 150px; height: 35px;">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="#">Settings</a></li>
+          <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="grid-container">
+        <ul id="messages">
+            {% for message in previous_messages %}
+                {% if message[0] != username %}
+                <div class="prof-pic-username" style="text-align:right;">
+                    <div class="username-message-container">
+                        <p id="message-username" class="message-username">{{ message[0] }}</p>
+                        <div class="message">
+                            <p class="message-date">{{ message[2] }}</p>
+                            <p>{{ message[1] }}</p>
+                        </div>
+                    </div>
+                    <label for="image-upload" class="custom-image-upload">
+                        <a class="profile-picture" href="{{ url_for('Search_profile', profile_username=message[0]) }}">
+                            <img class="profile-picture" src="/static/posts/{{ message[3] }}" alt="Profile Picture">
+                        </a>
+                    </label>
+                </div>
+                {% else %}
+                <li>
+                    <div class="prof-pic-username">
+                        <label for="image-upload" class="custom-image-upload">
+                            <a class="profile-picture" href="{{ url_for('Search_profile', profile_username=message[0]) }}">
+                                <img class="profile-picture" src="/static/posts/{{ message[3] }}" alt="Profile Picture">
+                            </a>
+                        </label>
+                        <div class="username-message-container">
+                            <p id="message-username" class="message-username">{{ message[0] }}</p>
+                            <div class="message">
+                                <p class="message-date">{{ message[2] }}</p>
+                                <p>{{ message[1] }}</p>
+                            </div>
+                        </div>
+                </li>
+                {% endif %}
+            {% endfor %}
+
+            <br>
+            <p id="sender">{{ sender }}</p>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    var socket = io.connect('http://' + document.domain + ':' + location.port);
+                    var room = "{{ room }}";
+                    socket.on('connect', function() {
+                        console.log('Connected');
+                        socket.emit('join', room);
+                    });
+                    socket.on('message', function(data) {
+                        // ...
+                    });
+                    // ...
+
+                    // Optional: handle leaving the room
+                    $(window).on('beforeunload', function() {
+                        socket.emit('leave', room);
+                    });
+                });
+            </script>
+        </ul>
+        <div class="input_message">
+            <input id="input" type="text" style="width:100%;" placeholder="Type your message...">
+            <button style="width:100%;" id="send-button">Send</button>
+        </div>
+    </div>
+</body>
+</html>

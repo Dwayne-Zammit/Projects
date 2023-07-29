@@ -1,0 +1,8 @@
+need to do:
+
+delete photo
+add like functionality
+add comment functionality
+change bio on user profile --------------- done :)
+add stories
+add direct messages
