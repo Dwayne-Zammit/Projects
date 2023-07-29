@@ -1,3 +1,9 @@
+This is a customised script I created myself to install grafana, influx, telegraf and start the services and get everything up and running
+Telegraf is an agent which collects/sends logs to various dbs.
+InfluxDB we have used influxdb as a database to collect the logs.
+Grafana is used as a monitoring tool, a datasource needs to be added with influxdb( check readme below) 
+
+
 This installtion is intended for Linux systems.
 
 It will install telegraf, influxdb and grafana.
