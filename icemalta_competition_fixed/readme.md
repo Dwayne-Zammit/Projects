@@ -1,4 +1,3 @@
-read me incomplete.
+Make sure to replace aws access key and aws secret key in .env file
 
-All I can simply say is run app.py
-then one can simply use /home
+also make sure to replace template id in .env file

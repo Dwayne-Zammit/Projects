@@ -3,19 +3,13 @@ from flask_login import LoginManager , login_required , UserMixin , login_user, 
 from flask import Flask, jsonify
 from flask import Flask, jsonify
 import boto3
-import string
-import random
 from flask import Flask, jsonify
 import boto3
-import paramiko
-import pycrypto
 import boto3
 import os
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.PublicKey import RSA
 import base64
-import rsa
-import requests
 import time
 from flask import send_file
 
@@ -29,8 +23,8 @@ login_manager = LoginManager()
 login_manager.login_view = "login"
 login_manager.init_app(app)
 
-aws_access_key_id = 'AKIAQZT2AJRT57S7U4EX'
-aws_secret_access_key = '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'
+aws_access_key_id = os.getenv("AWS_ACCESS_KEY")
+aws_secret_access_key = os.getenv("AWS_SECRET_KEY")
 region = "eu-west-1"
 
 class User(UserMixin):
@@ -91,9 +85,7 @@ def launch_lab():
     if request.method == "GET":
         return render_template("launch_lab.html")
     else:
-        return "post"
-        
-    # return f"Hello {current_user.username} welcome to the learning portal"    
+        return "post"  
 
 @app.route('/login' , methods=['GET' , 'POST'])
 def login():
@@ -194,7 +186,7 @@ def launch_instance():
                                   region_name=region)
 
         # Specify the ID of your launch template
-        launch_template_id = 'lt-0fb25bfc4c9dd335f'
+        launch_template_id = os.getenv("WINDOWS_LAUNCH_TEMPLATE_ID")
 
         # Launch the EC2 instance using the launch template
         response = ec2_client.run_instances(
