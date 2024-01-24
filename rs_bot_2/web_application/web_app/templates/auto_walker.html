@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Walker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auto_walker.css') }}">
+</head>
+<body>
+
+    <h1>Auto Walker</h1>
+
+    <form method="post" action="{{ url_for('auto_walker') }}" class="form-container">
+        <div class="destination-input-container">
+            <div class="flash-messages">
+                {{ message }} 
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flash">
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        <label for="destinationPlace" class="form-label">Destination Place:</label>
+        <select id="destinationPlace" name="destinationPlace" class="form-select">
+            {% for place in places %}
+                <option value="{{ place }}">{{ place }}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <button type="submit" class="form-button">Start</button>
+    </form>
+
+</body>
+</html>
