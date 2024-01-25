@@ -5,14 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auto Walker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/auto_walker.css') }}">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 
     <h1>Auto Walker</h1>
 
-    <form method="post" action="{{ url_for('auto_walker') }}" class="form-container">
+    <form method="post" action="{{ url_for('auto_walker') }}" class="form-container" onsubmit="showMessage()">
         <div class="destination-input-container">
-            <div class="flash-messages">
+            <div id="messageContainer" class="flash-messages hidden">
                 {{ message }} 
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
@@ -24,15 +33,24 @@
                     {% endif %}
                 {% endwith %}
             </div>
-        <label for="destinationPlace" class="form-label">Destination Place:</label>
-        <select id="destinationPlace" name="destinationPlace" class="form-select">
-            {% for place in places %}
-                <option value="{{ place }}">{{ place }}</option>
-            {% endfor %}
-        </select>
+            <label for="destinationPlace" class="form-label">Destination Place:</label>
+            <select id="destinationPlace" name="destinationPlace" class="form-select">
+                {% for place in places %}
+                    <option value="{{ place }}">{{ place }}</option>
+                {% endfor %}
+            </select>
         </div>
         <button type="submit" class="form-button">Start</button>
     </form>
+
+    <script>
+        function showMessage() {
+            // Change the visibility of the message container
+            var messageContainer = document.getElementById('messageContainer');
+            messageContainer.classList.remove('hidden');
+            messageContainer.classList.add('visible');
+        }
+    </script>
 
 </body>
 </html>

@@ -3,6 +3,8 @@ import os
 
 from flask import render_template, redirect, url_for, request, flash
 from web_app import app
+import threading
+import time
 
 # Get the current directory and its parent directory
 current_directory = os.path.dirname(os.path.realpath(__file__))
@@ -39,15 +41,17 @@ def auto_walker():
     
     elif request.method == "POST":
         destination_place = request.form.get('destinationPlace')
-        flash("Walking to destination")
-        auto_walk_to_destination(destination_place)
-        message = f"Arrived at destination: {destination_place}"
+        
 
-        # Redirect to the same route to ensure flashed messages are not cleared
-        return redirect(url_for('auto_walker'))
+        run_task_thread = threading.Thread(target=auto_walk_to_destination, args=(destination_place,))
+        run_task_thread.start()
+        # flash("Walking")
+        while run_task_thread.is_alive():
+            
+            time.sleep(3)
+        message = "Arrived in Destination"    
+        return render_template("auto_walker.html", places=known_places_names, message=message)
 
-    # If it's a GET request, or after the POST redirect
-    return render_template("auto_walker.html", places=known_places_names, message=message)
 
 @app.route('/pick_up_and_bank_items')
 def pick_up_and_bank_items():

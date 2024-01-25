@@ -11,7 +11,7 @@ def get_coordinates_to_destination(start_x,start_y,current_z,destination_x,desti
     body = {
         "start": {"x": start_x, "y": start_y, "z": current_z},
         "end": {"x": destination_x, "y": destination_y, "z": destination_z},
-        "player": {"members": "true"}
+        "player": {"members": "false"}
     }
     print(body)
 
