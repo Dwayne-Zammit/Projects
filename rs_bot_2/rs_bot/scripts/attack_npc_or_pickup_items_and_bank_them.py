@@ -20,8 +20,12 @@ from helpers.pickup_items import pickup_dropped_items
 
 
 ## Settings ##
+## cows setttings
 bank_location = "Lumbridge Bank"
 npc_location = "Cow Location"
+## varock settings
+# bank_location = "Grand Exchange"
+# npc_location = "Varrock"
 
 pickup_items_only_and_bank_them = True
 

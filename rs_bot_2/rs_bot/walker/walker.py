@@ -23,6 +23,7 @@ pyautogui.FAILSAFE = False
 
 events_url = "http://localhost:5050/events"
 coord_file_path = os.path.join(parent_directory, "walker/walker/coords.txt")
+print(f"coord file_path is: {coord_file_path}")
 all_coords_list= []
 screenshot_path = os.path.join(parent_directory,"screenshots/screenshot_cooordinates.png")
 
@@ -72,12 +73,13 @@ middle_of_screen_y = 535
 def walk_to_destination_function(destination_x,destination_y,destination_z):
     time.sleep(2)
     current_coordinates = get_current_coordinates()
+    print(f"current cordinates: {current_coordinates}")
     start_x, start_y,start_z = int(current_coordinates[0]), int(current_coordinates[1]), int(current_coordinates[2])
     print(current_coordinates)
     print(f"destinatiion: {destination_x}, {destination_y}")
     get_coordinates_to_destination(start_x,start_y,start_z,destination_x,destination_y,destination_z)
     path_coordinates = get_list_of_path_coords()
-    
+    print(f"Patrh coordinates in walk to des function: {path_coordinates}")
 
     for next_step in path_coordinates:
         current_coordinates = get_current_coordinates()
@@ -165,6 +167,7 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
     time.sleep(2)
 
 def walk_to_destination(destination_x,destination_y,destination_z):
+    print(f" Destinaition in walk to destination function{destination_x},{destination_y}")
     for count in range(0,2):
         walk_to_destination_function(destination_x,destination_y,destination_z)
     

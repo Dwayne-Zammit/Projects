@@ -13,6 +13,7 @@ def get_coordinates_to_destination(start_x,start_y,current_z,destination_x,desti
         "end": {"x": destination_x, "y": destination_y, "z": destination_z},
         "player": {"members": "false"}
     }
+    # body = {'start': {'x': 3293, 'y': 3151, 'z': 0}, 'end': {'x': 3274, 'y': 3191, 'z': 0}, 'player': {'members': 'false'}}
     print(body)
 
     # Make the POST request with the json parameter
@@ -33,20 +34,25 @@ def get_coordinates_to_destination(start_x,start_y,current_z,destination_x,desti
 
     # Now you can work with the response, for example:
     path = result.text
+    print(path)
     # print(path)
     path = json.loads(path)
-    # print(type(path))
+    print("path below:")
+    print(path)
     if not path['path']:
         return "Error obtaining path from https://explv.github.io"
     path = path['path']
-    print(path)
+    # print(path)
     coords_file_path = os.path.join(parent_directory, "walker/walker/coords.txt")
-    ## empty coords file ##
+    print(coords_file_path)
+    # empty coords file ##
     with open(coords_file_path, "w") as coordinates_file:
         pass  # This will empty the file
-
+    print(path)
     ## write coordinates in_file ##
     with open(coords_file_path, "a") as coordinates_file:
+
         for line in path:
+
             coordinates_file.write(f"{line['x']},{line['y']},{line['z']}\n")
-    return
+    return  

@@ -10,7 +10,9 @@ current_directory = os.path.dirname(os.path.realpath(__file__))
 parent_directory = os.path.dirname(current_directory)
 
 sys.path.append(parent_directory)
-from bank_functions.bank_items import locate_banker_x_y
+sys.path.append(current_directory)
+
+from bank_items import locate_banker_x_y
 
 api_url = "http://localhost:5050/"
 api_route = "bank"
@@ -48,24 +50,32 @@ def retrieve_item_from_bank(item_name, quantity):
     
     pyautogui.moveTo(first_item_in_bank_slot_location, duration=random.uniform(0.5,1))
     if quantity.lower() == "all":
+        withdraw_all_coordinates = 630,245
         pyautogui.rightClick()
-        time.sleep(0.5)
+        time.sleep(0.6)
         # click on withdraw all
-        pyautogui.click(630,230)
-    else:
+        pyautogui.click(withdraw_all_coordinates)
+    elif int(quantity) < 5:
         for count in range(0,int(quantity)):
             pyautogui.click(first_item_in_bank_slot_location)
             time.sleep(0.5)
+    else:
+        pyautogui.rightClick()
+        time.sleep(0.5)
+        withdraw_x_coordinates = 634,229
+        pyautogui.moveTo(withdraw_x_coordinates, duration=0.5)
+        pyautogui.click(withdraw_x_coordinates)
+        pyautogui.typewrite(str(quantity), interval=random.uniform(0.3,0.6))
+        time.sleep(0.5)
+        pyautogui.press("enter")
 
     # Close search box #
     click_on_search_item_button_in_bank()
     return
 
-time.sleep(2)
 
-## open bank function ##
+def deposit_all_items_to_bank():
+    empty_all_button_x_y = (1020,825)
+    pyautogui.click(empty_all_button_x_y)
+    return
 
-
-retrieve_item_from_bank("body rune", quantity="1")
-retrieve_item_from_bank("cowhide", quantity="all")
-close_bank()
