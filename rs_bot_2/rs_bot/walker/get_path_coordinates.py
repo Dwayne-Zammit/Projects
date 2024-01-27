@@ -13,8 +13,6 @@ def get_coordinates_to_destination(start_x,start_y,current_z,destination_x,desti
         "end": {"x": destination_x, "y": destination_y, "z": destination_z},
         "player": {"members": "false"}
     }
-    # body = {'start': {'x': 3293, 'y': 3151, 'z': 0}, 'end': {'x': 3274, 'y': 3191, 'z': 0}, 'player': {'members': 'false'}}
-    print(body)
 
     # Make the POST request with the json parameter
     result = requests.post(url, json=body, headers={
@@ -31,28 +29,23 @@ def get_coordinates_to_destination(start_x,start_y,current_z,destination_x,desti
         'Sec-Fetch-Site': 'cross-site',
         'TE': 'trailers'
     })
-
-    # Now you can work with the response, for example:
     path = result.text
-    # print(path)
-    # print(path)
     path = json.loads(path)
-    # print("path below:")
-    # print(path)
     if not path['path']:
         return "Error obtaining path from https://explv.github.io"
     path = path['path']
-    # print(path)
     coords_file_path = os.path.join(parent_directory, "walker/walker/coords.txt")
-    # print(coords_file_path)
-    # empty coords file ##
     with open(coords_file_path, "w") as coordinates_file:
-        pass  # This will empty the file
-    # print(path)
-    ## write coordinates in_file ##
+        pass
     with open(coords_file_path, "a") as coordinates_file:
-
-        for line in path:
-
-            coordinates_file.write(f"{line['x']},{line['y']},{line['z']}\n")
-    return  
+        # coordinates_file.write(f"{path[0]['x']},{path[0]['y']},{path[0]['z']}\n")
+        # print(path)
+        if len(path) < 5:
+            for next_step in path:
+                coordinates_file.write((f"{next_step['x']},{next_step['y']},{next_step['z']}\n"))
+        else:
+            coordinates_file.write(f"{path[0]['x']},{path[0]['y']},{path[0]['z']}\n")
+            for i in range(1, len(path) - 1, 2):
+                coordinates_file.write(f"{path[i]['x']},{path[i]['y']},{path[i]['z']}\n")
+            coordinates_file.write(f"{path[-1]['x']},{path[-1]['y']},{path[-1]['z']}\n")
+        return  

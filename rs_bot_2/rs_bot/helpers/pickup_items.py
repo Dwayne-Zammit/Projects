@@ -167,7 +167,7 @@ def pickup_dropped_items():
     dropped_item = locate_purple_box(os.path.join(parent_directory, "screenshots/filtered_purple.png"))
     if dropped_item:
         print("Found a dropped item")
-        pyautogui.moveTo(dropped_item)
+        pyautogui.moveTo(dropped_item, duration=0.3)
         pyautogui.click(dropped_item)
         print("Sleeping for 3 seconds till we pick up item...")
         time.sleep(2)

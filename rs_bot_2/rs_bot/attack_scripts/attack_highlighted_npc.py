@@ -12,7 +12,7 @@ parent_directory = os.path.dirname(current_directory)
 # Add the parent directory to sys.path
 sys.path.append(parent_directory)
 
-from helpers.api_request_events import get_current_health, check_npc_name
+from helpers.api_request_events import get_current_health, check_npc_name, check_npc_health
 from helpers.pickup_items import pickup_dropped_items
 pyautogui.FAILSAFE = False
 
@@ -25,7 +25,7 @@ def move_mouse_to_middle_of_screen():
     middle_y = screen_height // 2
 
     # Move the mouse to the middle of the screen
-    pyautogui.moveTo(middle_x, middle_y)
+    pyautogui.moveTo((middle_x, middle_y), duration=0.3)
     return
 
 
@@ -88,19 +88,22 @@ def get_coordinates_of_closest_marked_npc(image_path, target_color):
 
 def attack_npc():
     # Example usage
-    image_path = f"{parent_directory}/screenshots/screenshot_all.png"
-    target_color = (0, 255, 255)
-    take_screenshot_all()
-    coordinates = get_coordinates(image_path, target_color)
-    if coordinates != "None":
-        x = coordinates[0]
-        y = coordinates[1]
-        pyautogui.move(x+10,y+3)
-        pyautogui.click(x+20,y+10)
-        pyautogui.click(x+20,y+10)
-        time.sleep(1)
-    else:
-        print("Color not found in the image.")
+    for count in range(0,2):
+        image_path = f"{parent_directory}/screenshots/screenshot_all.png"
+        target_color = (0, 255, 255)
+        take_screenshot_all()
+        coordinates = get_coordinates(image_path, target_color)
+        if coordinates != "None":
+            x = coordinates[0]
+            y = coordinates[1]
+            pyautogui.move(x+10,y+3)
+        else:
+            print("Color not found in the image.")
+            return
+    pyautogui.click(x+10,y+10)
+    pyautogui.click(x+10,y+10)
+    time.sleep(1)
+
 
 def run_away():
     for count in range(0,3):
@@ -114,7 +117,7 @@ def start_attacking_marked_npcs(pickup_items):
         print("Attempting to find npc and start attacking")
 
         if int(get_current_health()) >= 13:
-            move_mouse_to_middle_of_screen() 
+            # move_mouse_to_middle_of_screen() 
             
             while True:
                 if keyboard.is_pressed('q'):
@@ -125,9 +128,10 @@ def start_attacking_marked_npcs(pickup_items):
                 
                 while len(npc) > 1:
                     npc = check_npc_name()
-                    print(f"we are fighting a {npc}")
-                    time.sleep(3)
-                    print(int(get_current_health()))
+                    print(f"We are fighting a {npc}")
+                    time.sleep(0.5)
+                    print(f"Current Health: {get_current_health()}")
+                    print(f"NPC's Health: {check_npc_health()}\n")
                     if int(get_current_health()) < 5:
                         print("We are running out of health")
                         run_away()
@@ -136,15 +140,15 @@ def start_attacking_marked_npcs(pickup_items):
                     break
         
         elif int(get_current_health()) < 13:
-            print("Not attempting to fight now due to low health")
+            print("Not attempting to fight now due to low health...")
             if len(check_npc_name()) > 0:
-                print("attempting to run away")
+                print("Possibility of fying, attempting to run away...")
                 run_away()
             time.sleep(10)
 
         if pickup_items:
             pickup_dropped_items()
-
+        print("\n")
     except Exception as e:
         print(e)
         print("error occured")

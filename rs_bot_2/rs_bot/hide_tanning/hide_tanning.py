@@ -7,6 +7,7 @@ import random
 from skimage.metrics import structural_similarity as ssim
 from PIL import Image
 import numpy as np
+import keyboard
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 parent_directory = os.path.dirname(current_directory)
@@ -34,7 +35,7 @@ def take_screenshot(filename):
 
 
 def ensure_tanery_menu_is_open(tenary_location):
-    pyautogui.moveTo(550,650)
+    # pyautogui.moveTo(550,650, )
     take_screenshot(f"{parent_directory}/hide_tanning/images/locate_tanery_attempt.png")
 
     # Compare the screenshot with another image
@@ -98,7 +99,7 @@ def main():
     toll_gate = False
 
 
-    while True:
+    while not keyboard.is_pressed("q"):
         # ## Go To Bank and withdraw hide
         go_to_location(bank_location)
         try:

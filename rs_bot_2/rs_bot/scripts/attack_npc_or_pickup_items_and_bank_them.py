@@ -46,32 +46,33 @@ def main():
     while True:
         while not keyboard.is_pressed('q'):
             inventory_full = check_if_inventory_is_full()
-            if inventory_full:
-                print("We have a full loot going to Bank items")    
-                go_to_location(bank_location)
-                put_inventory_in_bank("")
-                go_to_location(npc_location)
-            else:
-                go_to_location(npc_location)
-                pass
+            if pickup_items or pickup_items_only_and_bank_them:
+                if inventory_full:
+                    print("We have a full loot going to Bank items")    
+                    go_to_location(bank_location)
+                    put_inventory_in_bank("")
+                    go_to_location(npc_location)
+                    print(f"We have a full inventory. Going to bank items at {bank_location}.")
+                else:
+                    print(f"Inventory is not full. Walking to {npc_location}")
+                    go_to_location(npc_location)
+                    pass
+                
             while not inventory_full or keyboard.is_pressed("q"):
                 inventory_full = check_if_inventory_is_full()
                 if pickup_items_only_and_bank_them:
+                    go_to_location(bank_location)
                     # running script to pick up items only from np_location #
                     no_items_left = pickup_dropped_items()
                     print(no_items_left)
                     if no_items_left == None or no_items_left == False:
                         start_attacking_marked_npcs(pickup_items=False)
-
-                elif attack_npc == True and pickup_items == False:
                     # attack npcs script, do not attempt to pickup loot
+                    go_to_location(npc_location)
                     start_attacking_marked_npcs(pickup_items=False)
-
                 elif attack_npc == True and pickup_items == True:
                     # attack npcs script, attempt to pickup loot
                     start_attacking_marked_npcs(pickup_items=True)
-                    
-
                 time.sleep(2)
 
 if __name__ == "__main__":

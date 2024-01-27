@@ -15,5 +15,5 @@ def text_recognition(image_path, zoom_factor=4.0):
     text = pytesseract.image_to_string(image)
     
     # Print and return the extracted text
-    print(text)
+    # print(text)
     return text
