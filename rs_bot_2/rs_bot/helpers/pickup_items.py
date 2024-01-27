@@ -123,7 +123,7 @@ def filter_purple_text(image_path):
     filtered_img = cv2.bitwise_and(img, img, mask=mask)
 
     # Save the filtered image
-    cv2.imwrite(os.path.join(parent_directory, "filtered_purple.png"), filtered_img)
+    cv2.imwrite(os.path.join(parent_directory, "screenshots/filtered_purple.png"), filtered_img)
     return
 # Example usage
 
@@ -164,7 +164,7 @@ def pickup_dropped_items():
 
     # Filter out purple text in the screenshot and save it
     filter_purple_text(screenshot_path)
-    dropped_item = locate_purple_box(os.path.join(parent_directory, "filtered_purple.png"))
+    dropped_item = locate_purple_box(os.path.join(parent_directory, "screenshots/filtered_purple.png"))
     if dropped_item:
         print("Found a dropped item")
         pyautogui.moveTo(dropped_item)

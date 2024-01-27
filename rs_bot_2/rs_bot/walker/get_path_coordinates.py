@@ -34,21 +34,21 @@ def get_coordinates_to_destination(start_x,start_y,current_z,destination_x,desti
 
     # Now you can work with the response, for example:
     path = result.text
-    print(path)
+    # print(path)
     # print(path)
     path = json.loads(path)
-    print("path below:")
-    print(path)
+    # print("path below:")
+    # print(path)
     if not path['path']:
         return "Error obtaining path from https://explv.github.io"
     path = path['path']
     # print(path)
     coords_file_path = os.path.join(parent_directory, "walker/walker/coords.txt")
-    print(coords_file_path)
+    # print(coords_file_path)
     # empty coords file ##
     with open(coords_file_path, "w") as coordinates_file:
         pass  # This will empty the file
-    print(path)
+    # print(path)
     ## write coordinates in_file ##
     with open(coords_file_path, "a") as coordinates_file:
 

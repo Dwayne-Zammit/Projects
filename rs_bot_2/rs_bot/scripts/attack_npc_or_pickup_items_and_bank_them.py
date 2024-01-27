@@ -27,7 +27,7 @@ npc_location = "Cow Location"
 # bank_location = "Grand Exchange"
 # npc_location = "Varrock"
 
-pickup_items_only_and_bank_them = True
+pickup_items_only_and_bank_them = False
 
 attack_npc = True
 pickup_items = False

@@ -37,7 +37,7 @@ def take_screenshot_all():
     crop_area = (top_left_x, top_left_y, bottom_right_x, bottom_right_y)
     # Crop the screenshot using the defined area
     cropped_image = screenshot.crop(crop_area)
-    cropped_image.save(f"{parent_directory}/screenshot_all.png")
+    cropped_image.save(f"{parent_directory}/screenshots/screenshot_all.png")
     return
 
 
@@ -88,9 +88,8 @@ def get_coordinates_of_closest_marked_npc(image_path, target_color):
 
 def attack_npc():
     # Example usage
-    image_path = f"{parent_directory}/screenshot_all.png"
+    image_path = f"{parent_directory}/screenshots/screenshot_all.png"
     target_color = (0, 255, 255)
-    time.sleep(8)
     take_screenshot_all()
     coordinates = get_coordinates(image_path, target_color)
     if coordinates != "None":
@@ -99,44 +98,53 @@ def attack_npc():
         pyautogui.move(x+10,y+3)
         pyautogui.click(x+20,y+10)
         pyautogui.click(x+20,y+10)
+        time.sleep(1)
     else:
         print("Color not found in the image.")
 
 def run_away():
-    print("Running away")
-    pyautogui.click(1799,83)
-    return
+    for count in range(0,3):
+        print("Running away")
+        pyautogui.click(1799,83)
+        return
 
 
 def start_attacking_marked_npcs(pickup_items):
     try:
         print("Attempting to find npc and start attacking")
+
         if int(get_current_health()) >= 13:
             move_mouse_to_middle_of_screen() 
-            attack_npc()
+            
             while True:
                 if keyboard.is_pressed('q'):
                     print("Quitting script since q was pressed")
                     exit(1)
+                attack_npc()
                 npc = check_npc_name()
-                if len(npc) > 1:
+                
+                while len(npc) > 1:
+                    npc = check_npc_name()
                     print(f"we are fighting a {npc}")
-                    time.sleep(1)
+                    time.sleep(3)
                     print(int(get_current_health()))
                     if int(get_current_health()) < 5:
                         print("We are running out of health")
                         run_away()
                 else:
+                    time.sleep(1)
                     break
+        
         elif int(get_current_health()) < 13:
             print("Not attempting to fight now due to low health")
-            for number in range(0,5):
-                if len(check_npc_name()) > 0:
-                    print("attempting to run away")
-                    run_away()
+            if len(check_npc_name()) > 0:
+                print("attempting to run away")
+                run_away()
             time.sleep(10)
+
         if pickup_items:
             pickup_dropped_items()
+
     except Exception as e:
         print(e)
         print("error occured")

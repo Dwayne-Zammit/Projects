@@ -41,17 +41,17 @@ def auto_walker():
     
     elif request.method == "POST":
         destination_place = request.form.get('destinationPlace')
-        
-
         run_task_thread = threading.Thread(target=auto_walk_to_destination, args=(destination_place,))
         run_task_thread.start()
         # flash("Walking")
         while run_task_thread.is_alive():
-            
-            time.sleep(3)
-        message = "Arrived in Destination"    
-        return render_template("auto_walker.html", places=known_places_names, message=message)
-
+            # print(run_task_thread.is_alive())
+            time.sleep(1)
+            return render_template("auto_walker.html", places=known_places_names, message=f"Arrived to Destination {destination_place}")
+            # time.sleep()
+        
+        # message = f"Attempting to go to Destination {destination_place}"
+        # return render_template("auto_walker.html", places=known_places_names, message=message)
 
 @app.route('/pick_up_and_bank_items')
 def pick_up_and_bank_items():

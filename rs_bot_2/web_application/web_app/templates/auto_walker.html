@@ -22,16 +22,7 @@
     <form method="post" action="{{ url_for('auto_walker') }}" class="form-container" onsubmit="showMessage()">
         <div class="destination-input-container">
             <div id="messageContainer" class="flash-messages hidden">
-                {{ message }} 
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <ul class="flash">
-                            {% for message in messages %}
-                                <li>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
+                <p>{{ message }}</p>
             </div>
             <label for="destinationPlace" class="form-label">Destination Place:</label>
             <select id="destinationPlace" name="destinationPlace" class="form-select">

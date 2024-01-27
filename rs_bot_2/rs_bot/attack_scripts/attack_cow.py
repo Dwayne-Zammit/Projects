@@ -2,7 +2,7 @@ import pyautogui
 from PIL import Image
 import time
 import math
-from text_recognition import text_recognition
+from helpers.text_recognition import text_recognition
 import numpy as np
 import cv2
 

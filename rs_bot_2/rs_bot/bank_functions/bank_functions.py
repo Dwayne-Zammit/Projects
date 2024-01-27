@@ -22,7 +22,7 @@ bank_items = orjson.loads(bank_items)
 
 def open_bank():
     banker_coordinates_on_screen = locate_banker_x_y()
-    pyautogui.moveTo(banker_coordinates_on_screen, duration=random.uniform(0.5,1))
+    pyautogui.moveTo(banker_coordinates_on_screen,duration=0.3)
     pyautogui.click(banker_coordinates_on_screen)
     ## wait until we arrived at banker ##
     time.sleep(5)
@@ -30,12 +30,12 @@ def open_bank():
 
 def close_bank():
     pyautogui.press("esc")
-    time.sleep(0.5)
+    time.sleep(0.6)
     return
 
 def click_on_search_item_button_in_bank():
     bank_search_button_location = 977, 823
-    pyautogui.moveTo(bank_search_button_location, duration=random.uniform(0.5,1))
+    pyautogui.moveTo(bank_search_button_location, duration=random.uniform(0.6,1))
     pyautogui.click(bank_search_button_location)
     time.sleep(1)
     return
@@ -45,10 +45,10 @@ def retrieve_item_from_bank(item_name, quantity):
     click_on_search_item_button_in_bank()
     first_item_in_bank_slot_location = 662, 142
     time.sleep(1)
-    pyautogui.typewrite(item_name, interval=random.uniform(0.1,0.3))
+    pyautogui.typewrite(item_name, interval=random.uniform(0.1,2))
     time.sleep(1)
     
-    pyautogui.moveTo(first_item_in_bank_slot_location, duration=random.uniform(0.5,1))
+    pyautogui.moveTo(first_item_in_bank_slot_location, duration=random.uniform(0.6,1))
     if quantity.lower() == "all":
         withdraw_all_coordinates = 630,245
         pyautogui.rightClick()
@@ -58,15 +58,15 @@ def retrieve_item_from_bank(item_name, quantity):
     elif int(quantity) < 5:
         for count in range(0,int(quantity)):
             pyautogui.click(first_item_in_bank_slot_location)
-            time.sleep(0.5)
+            time.sleep(0.6)
     else:
         pyautogui.rightClick()
-        time.sleep(0.5)
+        time.sleep(0.6)
         withdraw_x_coordinates = 634,229
         pyautogui.moveTo(withdraw_x_coordinates, duration=0.5)
         pyautogui.click(withdraw_x_coordinates)
-        pyautogui.typewrite(str(quantity), interval=random.uniform(0.3,0.6))
-        time.sleep(0.5)
+        pyautogui.typewrite(str(quantity), interval=random.uniform(0.1,2))
+        time.sleep(0.6)
         pyautogui.press("enter")
 
     # Close search box #

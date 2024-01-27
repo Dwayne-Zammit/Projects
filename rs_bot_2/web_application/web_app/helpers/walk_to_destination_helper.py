@@ -27,6 +27,7 @@ def auto_walk_to_destination(destination_name):
     # Now, check the result after the thread has finished
     try:
         print(f"in auto walk deestination {destination_x,destination_y,destination_z}")
+        
         walk_to_destination(destination_x=destination_x, destination_y=destination_y, destination_z=destination_z)
     except:
         return "Q was pressed"
