@@ -19,7 +19,7 @@ def get_coordinates_to_destination(start_x,start_y,current_z,destination_x,desti
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
         'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Accept-Language': 'en-US,en;q=0.5',
-        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Encoding': 'gzip, deflate',
         'Content-Type': 'application/json',
         'Origin': 'https://explv.github.io',
         'Connection': 'keep-alive',

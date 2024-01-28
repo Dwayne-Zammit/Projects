@@ -14,6 +14,7 @@ sys.path.append(parent_directory)
 
 from helpers.api_request_events import get_current_health, check_npc_name, check_npc_health
 from helpers.pickup_items import pickup_dropped_items
+from helpers.mouse_helpers import smooth_move_to
 pyautogui.FAILSAFE = False
 
 def move_mouse_to_middle_of_screen():
@@ -41,7 +42,6 @@ def take_screenshot_all():
     return
 
 
-
 def get_coordinates(image_path, target_color):
     img = Image.open(image_path)
     width, height = img.size
@@ -55,6 +55,7 @@ def get_coordinates(image_path, target_color):
 
     # If the color is not found, return None
     return "None"
+
 
 def get_coordinates_of_closest_marked_npc(image_path, target_color):
     img = Image.open(image_path)
@@ -88,21 +89,22 @@ def get_coordinates_of_closest_marked_npc(image_path, target_color):
 
 def attack_npc():
     # Example usage
-    for count in range(0,2):
-        image_path = f"{parent_directory}/screenshots/screenshot_all.png"
-        target_color = (0, 255, 255)
-        take_screenshot_all()
-        coordinates = get_coordinates(image_path, target_color)
-        if coordinates != "None":
-            x = coordinates[0]
-            y = coordinates[1]
-            pyautogui.move(x+10,y+3)
-        else:
-            print("Color not found in the image.")
-            return
-    pyautogui.click(x+10,y+10)
-    pyautogui.click(x+10,y+10)
-    time.sleep(1)
+    # for count in range(0,2):
+    image_path = f"{parent_directory}/screenshots/screenshot_all.png"
+    target_color = (0, 255, 255)
+    take_screenshot_all()
+    coordinates = get_coordinates(image_path, target_color)
+    if coordinates != "None":
+        x = coordinates[0]
+        y = coordinates[1]
+        smooth_move_to(x,y)
+        # pyautogui.move(x+10,y+3)
+    else:
+        print("Color not found in the image.")
+        return
+    pyautogui.click()
+    # pyautogui.click(x+10,y+10)
+    time.sleep(3)
 
 
 def run_away():

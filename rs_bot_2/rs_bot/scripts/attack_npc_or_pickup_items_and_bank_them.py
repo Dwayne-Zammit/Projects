@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import keyboard
+import configparser
 
 # Get the current directory and its parent directory
 current_directory = os.path.dirname(os.path.realpath(__file__))
@@ -19,20 +20,16 @@ from bank_items.bank_items import put_inventory_in_bank
 from helpers.pickup_items import pickup_dropped_items
 
 
+# Initialize ConfigParser
+config = configparser.ConfigParser()
+config.read('config.ini')
+
 ## Settings ##
-## cows setttings
-bank_location = "Lumbridge Bank"
-npc_location = "Cow Location"
-## varock settings
-# bank_location = "Grand Exchange"
-# npc_location = "Varrock"
-
-pickup_items_only_and_bank_them = False
-
-attack_npc = True
-pickup_items = False
-
-
+bank_location = config['Attack Options']['bank_location']
+npc_location = config['Attack Options']['npc_location']
+pickup_items_only_and_bank_them = config.getboolean('Attack Options', 'pickup_items_only_and_bank_them')
+attack_npc = config.getboolean('Attack Options', 'attack_npc')
+pickup_items = config.getboolean('Attack Options', 'pickup_items')
 ## Settings ##
 
 
@@ -43,8 +40,15 @@ def go_to_location(destination_name):
     return
 
 def main():
+    ## go to npc marked location ##
+    print(f"Going To location {npc_location}")
+    # exit(1)
+    go_to_location(npc_location)
+
     while True:
-        while not keyboard.is_pressed('q'):
+        if keyboard.is_pressed('q'):
+            exit(1)
+        else:    
             inventory_full = check_if_inventory_is_full()
             if pickup_items or pickup_items_only_and_bank_them:
                 if inventory_full:
@@ -57,11 +61,10 @@ def main():
                     print(f"Inventory is not full. Walking to {npc_location}")
                     go_to_location(npc_location)
                     pass
-                
             while not inventory_full or keyboard.is_pressed("q"):
                 inventory_full = check_if_inventory_is_full()
                 if pickup_items_only_and_bank_them:
-                    go_to_location(bank_location)
+                    # go_to_location(bank_location)
                     # running script to pick up items only from np_location #
                     no_items_left = pickup_dropped_items()
                     print(no_items_left)
@@ -73,7 +76,10 @@ def main():
                 elif attack_npc == True and pickup_items == True:
                     # attack npcs script, attempt to pickup loot
                     start_attacking_marked_npcs(pickup_items=True)
+                elif attack_npc == True and pickup_items == False:
+                    start_attacking_marked_npcs(pickup_items=False)    
                 time.sleep(2)
 
 if __name__ == "__main__":
+    # go_to_location(npc_location)
     main()

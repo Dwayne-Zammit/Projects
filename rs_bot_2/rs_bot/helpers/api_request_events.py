@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 url = "http://localhost:5050/events"
 
@@ -12,6 +13,18 @@ def get_all_events():
 def get_current_health():
     api_result = get_all_events()
     return api_result['playerObject']['currentHealth']
+
+
+def get_current_run_energy():
+    api_responded = False
+    while api_responded == False:
+        try:
+            api_result = get_all_events()
+            api_responded = True
+        except:
+            time.sleep(1)
+    return int(api_result['playerObject']['runEnergy'])
+
 
 def check_npc_name():
     api_result = get_all_events()

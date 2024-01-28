@@ -18,7 +18,8 @@ sys.path.append(parent_directory)
 
 from walker.walker import walk_to_destination
 from walker.get_destination_coordinates import search_place_coordinates
-from bank_functions.bank_functions import open_bank,close_bank, click_on_search_item_button_in_bank, retrieve_item_from_bank,deposit_all_items_to_bank
+from bank_functions.bank_functions import open_bank,close_bank, check_if_bank_is_open, retrieve_item_from_bank,deposit_all_items_to_bank
+from helpers.mouse_helpers import smooth_move_to 
 
 def go_to_location(destination_name):
     destination_coordinates = search_place_coordinates(destination_name)
@@ -35,7 +36,7 @@ def take_screenshot(filename):
 
 
 def ensure_tanery_menu_is_open(tenary_location):
-    # pyautogui.moveTo(550,650, )
+    # pyautogui.moveTo((random.randint(500,550),random.randint(600,650)), duration=0.2)
     take_screenshot(f"{parent_directory}/hide_tanning/images/locate_tanery_attempt.png")
 
     # Compare the screenshot with another image
@@ -107,9 +108,14 @@ def main():
         except:
            time.sleep(3)
            go_to_location(bank_location)
-           open_bank()  
+           open_bank()
+        time.sleep(1)   
+        while check_if_bank_is_open() == False:   
+            go_to_location(bank_location)
+            open_bank()
+            
         deposit_all_items_to_bank()
-        retrieve_item_from_bank("coins","100")
+        retrieve_item_from_bank("coins",quantity="all")
         retrieve_item_from_bank(hide, quantity="all")
         close_bank()
         
@@ -129,12 +135,14 @@ def main():
         ensure_tanery_menu_is_open(tannery_location)
 
         ## click on the tanned hide we want to tan to ##
-        pyautogui.moveTo(tanning_options_coords[tanned_hide],duration=random.uniform(0.5,1))
+        
         tanned_leather_option_on_menu_x, tanned_leather_option_on_menu_y = tanning_options_coords[tanned_hide][0], tanning_options_coords[tanned_hide][1]
+        smooth_move_to(tanned_leather_option_on_menu_x, tanned_leather_option_on_menu_y)
         pyautogui.rightClick(tanned_leather_option_on_menu_x, tanned_leather_option_on_menu_y)
+        time.sleep(0.6)
         ## click on tan all ##
         tan_all_button_location = tanned_leather_option_on_menu_x, tanned_leather_option_on_menu_y + 70
-        pyautogui.moveTo(tan_all_button_location, duration=random.uniform(0.5,1))
+        smooth_move_to(tanned_leather_option_on_menu_x,tanned_leather_option_on_menu_y)
         pyautogui.click(tan_all_button_location)
         time.sleep(1)
         ## close tannery menu ##

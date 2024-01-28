@@ -45,10 +45,8 @@ def open_runelite_client_function():
     
 def open_runelite_client():
     # open_runelite_client_function()
-    # time.sleep(1)
     result = open_runelite_client_function()
     # result = open_runelite_client_function()
-    # time.sleep(3)
     # runelite_thread = threading.Thread(target=open_runelite_client_function)
     # result = runelite_thread.start()
     if result != "Window operation completed successfully.":

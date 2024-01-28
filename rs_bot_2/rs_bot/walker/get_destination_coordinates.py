@@ -17,7 +17,7 @@ def search_place_coordinates(destination_place):
             if location.get("name").lower() == destination_place.lower():
                 location_x, location_y, location_z = location['coords'][0], location['coords'][1], location['coords'][2]
                 return[location_x,location_y,location_z]
-                break
+                # break
         if location_x and location_y:
             return[location_x,location_y,location_z]
         else:
