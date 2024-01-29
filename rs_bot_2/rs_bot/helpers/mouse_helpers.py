@@ -1,7 +1,7 @@
 import pyautogui
 import math
 
-def smooth_move_to(x_dest, y_dest, speed=2500):
+def smooth_move_to(x_dest, y_dest, speed=2000):
     x_curr, y_curr = pyautogui.position()
     
     distance = math.sqrt((x_dest - x_curr)**2 + (y_dest - y_curr)**2)

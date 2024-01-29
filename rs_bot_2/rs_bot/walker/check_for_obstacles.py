@@ -105,6 +105,8 @@ def detect_stairs(obstacle_name, next_step_z, current_step_z, possible_obstacles
             time.sleep(3)
             pyautogui.press("1")
             time.sleep(1)
+            return True
+        
         elif next_step_z < current_step_z:
             print("Going down one story/plane")
             pyautogui.rightClick(possible_obstacles_coordinates)
@@ -113,10 +115,10 @@ def detect_stairs(obstacle_name, next_step_z, current_step_z, possible_obstacles
             time.sleep(3)
             pyautogui.press("2")
             time.sleep(1)
-    else:
-        print("Same story no need to click on stairs...")
-        time.sleep(0.2)
-    return
+            return True
+        else:
+            print("Same story no need to click on stairs...")
+    return False
 
 # check for doors or gates ##
 def detect_gates_doors(obstacle_name, possible_obstacles_coordinates):       
@@ -124,8 +126,10 @@ def detect_gates_doors(obstacle_name, possible_obstacles_coordinates):
         print("Door Detected, Opening Door")
         pyautogui.click(possible_obstacles_coordinates)
         time.sleep(3.5)
-
-
+        return True
+    else:
+        return False
+    
 def detect_possible_obstacles(next_step_z, current_step_z):
     possible_obstacles_coordinates = take_screenshot_hovered_tile_area()        
     if possible_obstacles_coordinates:
@@ -133,4 +137,5 @@ def detect_possible_obstacles(next_step_z, current_step_z):
         print(f"Possible obstacle name: {possible_obstacle_name}")
         detect_stairs(possible_obstacle_name, next_step_z, current_step_z, possible_obstacles_coordinates)
         detect_gates_doors(possible_obstacle_name, possible_obstacles_coordinates)
-    return
+        return True
+    return False

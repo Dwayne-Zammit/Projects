@@ -38,14 +38,12 @@ def get_coordinates_to_destination(start_x,start_y,current_z,destination_x,desti
     with open(coords_file_path, "w") as coordinates_file:
         pass
     with open(coords_file_path, "a") as coordinates_file:
-        # coordinates_file.write(f"{path[0]['x']},{path[0]['y']},{path[0]['z']}\n")
-        # print(path)
-        if len(path) < 5:
+        if len(path) >= 5:
+            coordinates_file.write(f"{path[2]['x']},{path[2]['y']},{path[2]['z']}\n")  # Write the third element
+            for i in range(3, len(path) - 1, 2):  # Start from the fourth element, iterate every second element
+                coordinates_file.write(f"{path[i]['x']},{path[i]['y']},{path[i]['z']}\n")
+            coordinates_file.write(f"{path[-1]['x']},{path[-1]['y']},{path[-1]['z']}\n")  # Write the last element
+        else:
             for next_step in path:
                 coordinates_file.write((f"{next_step['x']},{next_step['y']},{next_step['z']}\n"))
-        else:
-            coordinates_file.write(f"{path[0]['x']},{path[0]['y']},{path[0]['z']}\n")
-            for i in range(1, len(path) - 1, 2):
-                coordinates_file.write(f"{path[i]['x']},{path[i]['y']},{path[i]['z']}\n")
-            coordinates_file.write(f"{path[-1]['x']},{path[-1]['y']},{path[-1]['z']}\n")
-        return  
+

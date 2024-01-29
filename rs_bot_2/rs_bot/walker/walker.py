@@ -107,9 +107,10 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
             
             next_step = next_step.strip().split(",")
             next_step_x, next_step_y,next_step_z = int(next_step[0]), int(next_step[1]), int(next_step[2])
-            print(current_step_x,current_step_y, next_step_x, next_step_y)
+            # print(current_step_x,current_step_y, next_step_x, next_step_y)
             ## check aand handle any obstacles examples, doors, stairs, gates etc ##
-            detect_possible_obstacles(next_step_z, current_step_z)
+            if detect_possible_obstacles(next_step_z, current_step_z):
+                walk_to_destination(destination_x,destination_y,destination_z)
 
             ################# Obstacles handled so we attempt to follow path #################
             if next_step_x != current_step_x or next_step_y != current_step_y:
@@ -133,7 +134,7 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                     if is_player_running == True:
                         sleep_interval += 1.2
                     elif is_player_running == False:
-                        sleep_interval += 0.6        
+                        sleep_interval += 0.6       
                 # elif total_coordinates - current_line_iteration >= 5:
                 #     sleep_interval = 1.2       
 
@@ -184,11 +185,12 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
             
             print("Arrived in destination Tile...\n")
         current_line_iteration += 1
-    time.sleep(2)
+    time.sleep(3)
 
 def walk_to_destination(destination_x,destination_y,destination_z):    
     print(f"Request to walk to destination: {destination_x},{destination_y}")
     ## run this twice to ensure that you arrive on the desired tile
-    for count in range(0,2):
-        walk_to_destination_function(destination_x,destination_y,destination_z)
+    # for count in range(0,2):
+    #     walk_to_destination_function(destination_x,destination_y,destination_z)
+    walk_to_destination_function(destination_x,destination_y,destination_z)    
     

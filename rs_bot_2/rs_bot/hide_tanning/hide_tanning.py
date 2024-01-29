@@ -45,7 +45,7 @@ def take_screenshot(filename):
 
 
 def ensure_tanery_menu_is_open(tenary_location):
-    # pyautogui.moveTo((random.randint(500,550),random.randint(600,650)), duration=0.2)
+    smooth_move_to(960,540)
     take_screenshot(f"{parent_directory}/hide_tanning/images/locate_tanery_attempt.png")
 
     # Compare the screenshot with another image
@@ -57,6 +57,7 @@ def ensure_tanery_menu_is_open(tenary_location):
         # go_to_location(tenary_location)
         talk_to_guard = open_bank()
         ensure_tanery_menu_is_open(tenary_location)
+    return
 
 def pay_gate_toll():
     ## press click here to continue twice ##
@@ -124,16 +125,16 @@ def main():
     go_to_bank_and_get_cowhide()
     while not keyboard.is_pressed("q"):
         # go to tanning location
-        if tannery_location == "Al Kharid Tanning":
-            if toll_gate:
-                bank_location = "Al Kharid Bank"
-                go_to_location("Toll Gate West Side")
-                talk_to_guard = open_bank()
-                pay_gate_toll()
-                go_to_location("Al Kharid Tanning")
-            else:
-                go_to_location(tannery_location)
-        
+        # if tannery_location == "Al Kharid Tanning":
+        #     if toll_gate:
+        #         bank_location = "Al Kharid Bank"
+        #         go_to_location("Toll Gate West Side")
+        #         talk_to_guard = open_bank()
+        #         pay_gate_toll()
+        #         go_to_location("Al Kharid Tanning")
+        #     else:
+        #         go_to_location(tannery_location)
+        go_to_location(tannery_location)
         ## click on tannery_npc ##
         click_tannery_npc = open_bank()
         ensure_tanery_menu_is_open(tannery_location)
@@ -164,12 +165,13 @@ def main():
                 bank_location = "Al Kharid Bank"
                 go_to_location(bank_location)   
         try:
+           
            open_bank()
         except:
            time.sleep(3)
-           go_to_location(bank_location)
            open_bank()
         deposit_all_items_to_bank()
+        retrieve_item_from_bank("coins",quantity="all")
+        retrieve_item_from_bank(hide, quantity="all")
         close_bank()
-
 main()
