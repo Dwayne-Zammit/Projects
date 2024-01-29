@@ -10,3 +10,7 @@ Start-Process -FilePath $InstallerPath -ArgumentList "/S" -Wait
 
 # Remove the installer file
 Remove-Item $InstallerPath
+
+runeliteConfigPath = "C:\Users\admin\.runelite"
+
+mv ./profiles2 $runeliteConfigPath
