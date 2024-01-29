@@ -15,6 +15,22 @@ Remove-Item python-installer.exe
 
 Write-Host "Python $PYTHON_VERSION has been installed successfully."
 
-## install tesseract ## 
-cp ./Tesseract-ocr C:\Program Files
-setx PATH "%PATH%;C:\Program Files\Tesseract-ocr"
+# Define the destination directory
+$destinationDirectory = "C:\Program Files\tesseract"
+
+# Check if the destination directory exists, if not, create it
+if (-not (Test-Path -Path $destinationDirectory -PathType Container)) {
+    New-Item -ItemType Directory -Path $destinationDirectory | Out-Null
+}
+
+# Download the Tesseract OCR source code as a zip file
+Invoke-WebRequest -Uri "https://github.com/tesseract-ocr/tesseract/archive/refs/heads/main.zip" -OutFile "$env:TEMP\tesseract-main.zip"
+
+# Extract the zip file to the destination directory
+Expand-Archive -Path "$env:TEMP\tesseract-main.zip" -DestinationPath $destinationDirectory -Force
+
+if ($?) {
+    Write-Host "Tesseract OCR source code has been successfully downloaded and placed in $destinationDirectory."
+} else {
+    Write-Host "Failed to download Tesseract OCR source code."
+}
