@@ -111,7 +111,7 @@ def retrieve_item_from_bank(item_name, quantity):
 def deposit_all_items_to_bank():
     empty_all_button_x_y = (1020,825)
     smooth_move_to(empty_all_button_x_y[0],empty_all_button_x_y[1])
-    # time.sleep(1)
+    time.sleep(0.6)
     pyautogui.click(empty_all_button_x_y)
     time.sleep(0.6)
     return

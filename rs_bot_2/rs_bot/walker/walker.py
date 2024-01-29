@@ -77,9 +77,9 @@ def check_if_running():
     is_player_running = is_running()
     # print(f"Player running: {is_player_running}")
     if is_player_running:
-        sleep_interval = 0.5
+        sleep_interval = 0.3
     else:
-        sleep_interval = 0.8
+        sleep_interval = 0.6
     return is_player_running, sleep_interval
 
 
@@ -129,10 +129,11 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                 ## check if we will soon arrive in order to increase sleep interval for smoother clicking ##
                 total_steps_left = total_coordinates - current_line_iteration
                 if total_steps_left < 5:
+                    print("We are arriving soon, slowing down...")
                     if is_player_running == True:
-                        sleep_interval = 3
+                        sleep_interval += 1.2
                     elif is_player_running == False:
-                        sleep_interval = 0.6        
+                        sleep_interval += 0.6        
                 # elif total_coordinates - current_line_iteration >= 5:
                 #     sleep_interval = 1.2       
 
@@ -141,12 +142,10 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                 if changing_plane_soon == True  and total_steps_left > 5:
                     print("changing plane soon")
                     if is_player_running:
-                        print("slowing down for 3 seconds ")
-                        time.sleep(1)
-                        # sleep_interval = 3
-                    # else:
-                    #     time.sleep(1)
-                        # sleep_interval = 3
+                        sleep_interval += 1
+                    else:
+                        # time.sleep(1)
+                        sleep_interval += 0.3
 
 
                 ## tile difference between next step and current step
@@ -166,23 +165,24 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                 else:
                     screen_y_location = middle_of_screen_y -  difference_in_y * one_tile_pixels
 
-                ## check if we are going too fast, if yes wait a few.. ##
-                if difference_in_x > -2 or difference_in_x < 2 or difference_in_y > -2 or difference_in_y < 2:
-                    print("Pausing due too far from x,y tile...")
-                    time.sleep(sleep_interval)
-                if screen_y_location < 360 or screen_y_location > 800 or screen_x_location < 670 or screen_x_location > 1250:    
-                    print("Pausing due too far from x,y screen...")
-                    time.sleep(sleep_interval * 3)
-                
                 ## move and click on next tile
                 smooth_move_to(screen_x_location,screen_y_location)
                 # pyautogui.moveTo((screen_x_location,screen_y_location), duration=0.2)
                 # time.sleep(0.2)
                 pyautogui.click(screen_x_location,screen_y_location)  
+
+                ## check if we are going too fast, if yes wait a few.. ##
+                if difference_in_x > -2 or difference_in_x < 2 or difference_in_y > -2 or difference_in_y < 2:
+                    print("Pausing due too tile difference being greater than 2...")
+                    time.sleep(sleep_interval)
+                if screen_y_location < 360 or screen_y_location > 800 or screen_x_location < 670 or screen_x_location > 1250:    
+                    print("Pausing due too mouse being too far from player...")
+                    time.sleep(sleep_interval * 3)
+                
             else:
                 print(f"Player Already on {destination_x}, {destination_y}")
             
-            print("Arrived in destination...")
+            print("Arrived in destination Tile...\n")
         current_line_iteration += 1
     time.sleep(2)
 

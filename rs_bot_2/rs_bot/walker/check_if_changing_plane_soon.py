@@ -22,12 +22,11 @@ def get_list_of_path_coords(start_line):
 
 def check_if_change_plane_soon(current_line_z):
     path = (get_list_of_path_coords(start_line=current_line_z))
-    print(path)
     # try:
     for line in path:
         line_z = line.strip().split(",")[2]
-        if line_z != current_line_z:
-            print("Need to change plane")
+        if int(line_z) != int(current_line_z):
+
             return True
     # except:
         # print("error....")        
