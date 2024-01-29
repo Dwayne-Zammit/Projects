@@ -67,22 +67,22 @@ def check_if_bank_is_open():
     return api_result['bankOpen']
     
 
-def item_quantity_in_bank(item_name):
-    url = "http://localhost:5050/bank"
-    result = requests.get(url)
-    bank_items = json.loads(result.text)
-    print(item_name)
-    item_id_from_list = str(get_item_id([item_name])[2:-2].replace("'","").split(":"))
-    print(item_id_from_list)
-    # (str(item_id_from_list)[2:-2]).replace("'","").split(":")
-    for bank_item in bank_items:
-        quantity = 0
-        id = bank_item['id']
+# def item_quantity_in_bank(item_name):
+#     url = "http://localhost:5050/bank"
+#     result = requests.get(url)
+#     bank_items = json.loads(result.text)
+#     print(item_name)
+#     item_id_from_list = str(get_item_id([item_name])[2:-2].replace("'","").split(":"))
+#     print(item_id_from_list)
+#     # (str(item_id_from_list)[2:-2]).replace("'","").split(":")
+#     for bank_item in bank_items:
+#         quantity = 0
+#         id = bank_item['id']
         
-        if item_id_from_list == str(item_name):
-            quantity = bank_item['quantity']
-        return quantity
-    return quantity
+#         if item_id_from_list == str(item_name):
+#             quantity = bank_item['quantity']
+#         return quantity
+#     return quantity
 
-item_name = "Cowhide".upper()
-item_quantity_in_bank(item_name)
+# item_name = "Cowhide".upper()
+# item_quantity_in_bank(item_name)
