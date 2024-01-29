@@ -1,10 +1,9 @@
 easyocr==1.6.2
-Flask==2.2.3
+Flask==3.0.1
 keyboard==0.13.5
 numpy==1.26.3
 orjson==3.9.12
 Pillow==9.5.0
-Pillow==10.2.0
 playsound==1.2.2
 PyAutoGUI==0.9.53
 PyGetWindow==0.0.9
@@ -12,4 +11,10 @@ pytesseract==0.3.10
 pywin32==305
 pywinauto==0.6.8
 Requests==2.31.0
-skimage==0.0
+Werkzeug==2.2.3
+keyboard==0.13.5
+PyAutoGUI==0.9.53
+torch==2.0.1
+pywin32==306
+pywinauto==0.6.8
+orjson==3.8.7

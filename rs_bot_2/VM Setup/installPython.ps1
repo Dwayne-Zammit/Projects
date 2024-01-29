@@ -34,3 +34,8 @@ if ($?) {
 } else {
     Write-Host "Failed to download Tesseract OCR source code."
 }
+
+## install vc redist ##
+$installerPath = "C:\Path\To\Save\vc_redist.x64.exe"
+
+Start-Process -FilePath $installerPath -ArgumentList "/quiet" -Wait

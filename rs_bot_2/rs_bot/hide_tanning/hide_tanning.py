@@ -21,6 +21,15 @@ from walker.get_destination_coordinates import search_place_coordinates
 from bank_functions.bank_functions import open_bank,close_bank, check_if_bank_is_open, retrieve_item_from_bank,deposit_all_items_to_bank
 from helpers.mouse_helpers import smooth_move_to 
 
+
+## settings ##
+hide = "Cowhide"
+tanned_hide = "HARD_LEATHER"
+bank_location = "Al Kharid Bank"
+tannery_location = "Al Kharid Tanning"
+toll_gate = False
+
+
 def go_to_location(destination_name):
     destination_coordinates = search_place_coordinates(destination_name)
     destination_x, destination_y,destination_z = destination_coordinates[0], destination_coordinates[1], destination_coordinates[2]
@@ -45,7 +54,7 @@ def ensure_tanery_menu_is_open(tenary_location):
     if similarity:
         print("Screenshots are similar!")
     else:
-        go_to_location(tenary_location)
+        # go_to_location(tenary_location)
         talk_to_guard = open_bank()
         ensure_tanery_menu_is_open(tenary_location)
 
@@ -91,34 +100,29 @@ def compare_images(image1_path, image2_path, threshold=0.5):
     # Return True if similarity index is greater than threshold, False otherwise
     return similarity_index > threshold
 
-def main():
-    ## settings ##
-    hide = "Cowhide"
-    tanned_hide = "HARD_LEATHER"
-    bank_location = "Al Kharid Bank"
-    tannery_location = "Al Kharid Tanning"
-    toll_gate = False
 
-
-    while not keyboard.is_pressed("q"):
-        # ## Go To Bank and withdraw hide
+def go_to_bank_and_get_cowhide():
+    go_to_location(bank_location)
+    try:
+       open_bank()
+    except:
+       time.sleep(3)
+       go_to_location(bank_location)
+       open_bank()
+    time.sleep(1)   
+    while check_if_bank_is_open() == False:   
         go_to_location(bank_location)
-        try:
-           open_bank()
-        except:
-           time.sleep(3)
-           go_to_location(bank_location)
-           open_bank()
-        time.sleep(1)   
-        while check_if_bank_is_open() == False:   
-            go_to_location(bank_location)
-            open_bank()
-            
-        deposit_all_items_to_bank()
-        retrieve_item_from_bank("coins",quantity="all")
-        retrieve_item_from_bank(hide, quantity="all")
-        close_bank()
+        open_bank()
         
+    deposit_all_items_to_bank()
+    retrieve_item_from_bank("coins",quantity="all")
+    retrieve_item_from_bank(hide, quantity="all")
+    close_bank()
+    return
+
+def main():
+    go_to_bank_and_get_cowhide()
+    while not keyboard.is_pressed("q"):
         # go to tanning location
         if tannery_location == "Al Kharid Tanning":
             if toll_gate:
@@ -135,18 +139,20 @@ def main():
         ensure_tanery_menu_is_open(tannery_location)
 
         ## click on the tanned hide we want to tan to ##
-        
         tanned_leather_option_on_menu_x, tanned_leather_option_on_menu_y = tanning_options_coords[tanned_hide][0], tanning_options_coords[tanned_hide][1]
         smooth_move_to(tanned_leather_option_on_menu_x, tanned_leather_option_on_menu_y)
         pyautogui.rightClick(tanned_leather_option_on_menu_x, tanned_leather_option_on_menu_y)
         time.sleep(0.6)
+
         ## click on tan all ##
         tan_all_button_location = tanned_leather_option_on_menu_x, tanned_leather_option_on_menu_y + 70
         smooth_move_to(tanned_leather_option_on_menu_x,tanned_leather_option_on_menu_y)
         pyautogui.click(tan_all_button_location)
         time.sleep(1)
+        
         ## close tannery menu ##
         pyautogui.press("esc")
+        
         ## go back to bank and deposit all loot to bank ##
         if tannery_location == "Al Kharid Tanning":
             if toll_gate:
@@ -165,6 +171,5 @@ def main():
            open_bank()
         deposit_all_items_to_bank()
         close_bank()
-
 
 main()
