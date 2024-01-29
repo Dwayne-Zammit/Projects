@@ -51,11 +51,28 @@ def get_coordinates(image_path, target_color):
         for y in range(height):
             pixel_color = img.getpixel((x, y))
             if pixel_color == target_color:
-                return x, y
+                # Check if there are at least 5x5 pixels around the target pixel
+                if check_surrounding_pixels(img, x, y, target_color, size=10):
+                    # Return the middle pixel's coordinates
+                    return x, y
 
-    # If the color is not found, return None
-    return "None"
+    # If the color is not found or 5x5 square is not found, return None
+    return None
 
+def check_surrounding_pixels(img, x, y, target_color, size):
+    # Calculate the boundaries for the 5x5 square
+    left_bound = max(0, x - size // 2)
+    upper_bound = max(0, y - size // 2)
+    right_bound = min(img.width, x + size // 2)
+    lower_bound = min(img.height, y + size // 2)
+
+    # Iterate over the square region
+    for i in range(left_bound, right_bound):
+        for j in range(upper_bound, lower_bound):
+            # Check if the pixel color matches the target color
+            if img.getpixel((i, j)) != target_color:
+                return False
+    return True
 
 def get_coordinates_of_closest_marked_npc(image_path, target_color):
     img = Image.open(image_path)
