@@ -2,9 +2,6 @@ easyocr==1.6.2
 Flask==2.2.3
 keyboard==0.13.5
 numpy==1.26.3
-opencv_contrib_python==4.7.0.72
-opencv_python==4.8.1.78
-opencv_python_headless==4.5.4.60
 orjson==3.9.12
 Pillow==9.5.0
 Pillow==10.2.0
