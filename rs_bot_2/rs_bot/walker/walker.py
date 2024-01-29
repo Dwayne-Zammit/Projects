@@ -126,9 +126,19 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                     print("Clicking on run button")
                     press_running_button()
 
+                ## check if we will soon arrive in order to increase sleep interval for smoother clicking ##
+                total_steps_left = total_coordinates - current_line_iteration
+                if total_steps_left < 5:
+                    if is_player_running == True:
+                        sleep_interval = 3
+                    elif is_player_running == False:
+                        sleep_interval = 0.6        
+                # elif total_coordinates - current_line_iteration >= 5:
+                #     sleep_interval = 1.2       
+
                 ## change time interval based on whether we will change z/plane soon and whether running.
                 changing_plane_soon = check_if_change_plane_soon(current_line_z=current_step_z)
-                if changing_plane_soon == True:
+                if changing_plane_soon == True  and total_steps_left > 5:
                     print("changing plane soon")
                     if is_player_running:
                         print("slowing down for 3 seconds ")
@@ -138,14 +148,6 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                     #     time.sleep(1)
                         # sleep_interval = 3
 
-                ## check if we will soon arrive in order to increase sleep interval for smoother clicking ##
-                if total_coordinates - current_line_iteration < 5:
-                    if is_player_running == True:
-                        sleep_interval = 3
-                    elif is_player_running == False:
-                        sleep_interval = 0.6        
-                # elif total_coordinates - current_line_iteration >= 5:
-                #     sleep_interval = 1.2       
 
                 ## tile difference between next step and current step
                 difference_in_x = next_step_x - current_step_x
