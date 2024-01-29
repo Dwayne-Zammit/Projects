@@ -2,6 +2,8 @@
 $RuneLiteURL = "https://github.com/runelite/launcher/releases/download/2.6.10/RuneLiteSetup.exe"
 $InstallerPath = "$env:TEMP\RuneLiteSetup.exe"
 
+echo "Attempting to Download Rune Lite"
+
 # Download RuneLite setup executable
 Invoke-WebRequest -Uri $RuneLiteURL -OutFile $InstallerPath
 
@@ -12,5 +14,3 @@ Start-Process -FilePath $InstallerPath -ArgumentList "/S" -Wait
 Remove-Item $InstallerPath
 
 runeliteConfigPath = "C:\Users\admin\.runelite"
-
-mv ./profiles2 $runeliteConfigPath
