@@ -132,7 +132,7 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                 if total_steps_left < 5:
                     print("We are arriving soon, slowing down...")
                     if is_player_running == True:
-                        sleep_interval += 1.2
+                        sleep_interval += 1.1
                     elif is_player_running == False:
                         sleep_interval += 0.6       
                 # elif total_coordinates - current_line_iteration >= 5:

@@ -9,7 +9,7 @@ from pywinauto import Application
 
 def open_runelite_client_function():
     try:
-        window_title = "RuneLite - Pizzil_exe"
+        window_title = "RuneLite - Dukadelmin"
         max_attempts = 1
         delay_between_attempts = 2  # seconds
 
