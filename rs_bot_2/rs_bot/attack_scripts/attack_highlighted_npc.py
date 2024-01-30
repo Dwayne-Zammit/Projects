@@ -114,12 +114,13 @@ def attack_npc():
     if coordinates != "None":
         x = coordinates[0]
         y = coordinates[1]
-        smooth_move_to(x,y)
+        pyautogui.moveTo((x,y), duration=0.1)
+        pyautogui.click()
         # pyautogui.move(x+10,y+3)
     else:
         print("Color not found in the image.")
         return
-    pyautogui.click()
+    
     # pyautogui.click(x+10,y+10)
     time.sleep(3)
 
@@ -127,6 +128,7 @@ def attack_npc():
 def run_away():
     for count in range(0,3):
         print("Running away")
+        smooth_move_to(1799,83)
         pyautogui.click(1799,83)
         return
 

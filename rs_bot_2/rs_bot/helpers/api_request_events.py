@@ -1,8 +1,18 @@
 import requests
 import json
 import time
+import os
+import sys
+
+current_directory = os.path.dirname(os.path.realpath(__file__))
+parent_directory = os.path.dirname(current_directory)
+
+# Add the parent directory to sys.path
+sys.path.append(parent_directory)
+from items.load_items import get_item_id
 
 url = "http://localhost:5050/events"
+coord_file_path = os.path.join(parent_directory, "walker/walker/coords.txt")
 
 def get_all_events():
     result = requests.get(url)
@@ -56,3 +66,23 @@ def check_if_bank_is_open():
     api_result = get_all_events()
     return api_result['bankOpen']
     
+
+# def item_quantity_in_bank(item_name):
+#     url = "http://localhost:5050/bank"
+#     result = requests.get(url)
+#     bank_items = json.loads(result.text)
+#     print(item_name)
+#     item_id_from_list = str(get_item_id([item_name])[2:-2].replace("'","").split(":"))
+#     print(item_id_from_list)
+#     # (str(item_id_from_list)[2:-2]).replace("'","").split(":")
+#     for bank_item in bank_items:
+#         quantity = 0
+#         id = bank_item['id']
+        
+#         if item_id_from_list == str(item_name):
+#             quantity = bank_item['quantity']
+#         return quantity
+#     return quantity
+
+# item_name = "Cowhide".upper()
+# item_quantity_in_bank(item_name)

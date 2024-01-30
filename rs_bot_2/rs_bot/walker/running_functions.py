@@ -20,25 +20,11 @@ run_button_x, run_button_y = 1730, 155
 def is_running():
     option_discovered = False
     currently_running = False
-    # while not option_discovered:
-    #     pixel_rgb = pyautogui.pixel(run_button_x, run_button_y)
-    #     print(pixel_rgb)
-    #     time.sleep(1)
-        
-    #     if pixel_rgb == run_button_disabled_rgb:
-    #         currently_running = False
-    #         option_discovered = True
-    #     elif pixel_rgb == run_button_enabled_rgb:
-    #         currently_running = True
-    #         option_discovered = True
     pixel_rgb = pyautogui.pixel(run_button_x, run_button_y)
-    print(pixel_rgb)
     if pixel_rgb == run_button_enabled_rgb:
         return True
-        # option_discovered = True
     else:
-        return False  
-    # return currently_running        
+        return False
 
 def press_running_button():
     smooth_move_to(run_button_x, run_button_y)
