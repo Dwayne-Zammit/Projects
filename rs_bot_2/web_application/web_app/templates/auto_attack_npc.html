@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Attack</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auto_walker.css') }}">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        /* Apply styles to all input elements within the form */
+        .form-container input[type="text"],
+        .form-container select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* Style the submit button */
+        .form-container button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Change button background color on hover */
+        .form-container button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<script>
+    function togglePickupOptions() {
+        var pickupOptions = document.getElementById('pickupOptions');
+        pickupOptions.classList.toggle('hidden');
+        var bankOptions = document.getElementById('droppedItemNameOptions');
+        bankOptions.classList.toggle('hidden');
+    }
+
+    function toggleBankOptions() {
+        var bankOptions = document.getElementById('bankOptions');
+        bankOptions.classList.toggle('hidden');
+    }
+    // function toggleDroppedItemOptions() {
+    //     var bankOptions = document.getElementById('droppedItemNameOptions');
+    //     bankOptions.classList.toggle('hidden');
+    // }
+
+    function showMessage() {
+        // Change the visibility of the message container
+        var messageContainer = document.getElementById('messageContainer');
+        messageContainer.classList.remove('hidden');
+        messageContainer.classList.add('visible');
+    }
+</script>
+<body>
+
+    <h1>Auto Attack</h1>
+
+    <form method="post" action="{{ url_for('auto_attack') }}" class="form-container" onsubmit="showMessage()">
+        <div class="destination-input-container">
+            <div id="messageContainer">
+                <p>{{ message }}</p>
+            </div>
+            <label for="npcLocation" class="form-label">NPC Location:</label>
+            <select id="npcLocation" name="npcLocation" class="form-select">
+                {% for place in places %}
+                    <option value="{{ place }}">{{ place }}</option>
+                {% endfor %}
+            </select>
+            <!-- <label for="npc_name">NPC Name:</label><br> -->
+            <label for="npc_name" class="form-label">NPC Name:</label>
+            <select id="npc_name" name="npc_name" class="form-select">
+                {% for id, npc_name in npcs_names.items() %}
+                    {% if npc_name == "cow" %}
+                        <option value="{{ npc_name }}" selected>{{ npc_name.upper() }}</option>
+                    {% else %}
+                        <option value="{{ npc_name }}">{{ npc_name.upper() }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            
+            </select>
+
+            <input type="checkbox" id="pickup_items_checkbox" name="pickupItems" onchange="togglePickupOptions()"> Pick up items?<br>
+            <div id="droppedItemNameOptions" class="hidden">
+                <label for="droppedItemName">Dropped Item Name:</label><br>
+                <select id="droppedItemName" name="droppedItemName" class="form-select">
+                    {% for dropped_item_name in dropped_item_names %}
+                        {% if dropped_item_name.lower() == "cowhide" %}
+                            <option value="{{ dropped_item_name }}" selected>{{ dropped_item_name }}</option>
+                        {% else %}
+                            <option value="{{ dropped_item_name }}">{{ dropped_item_name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>                
+            </div>
+            <div id="pickupOptions" class="hidden">
+                <input type="checkbox" id="take_to_bank_checkbox" name="bankItems" onchange="toggleBankOptions()"> Take items to bank?<br>
+                <div id="bankOptions" class="hidden">
+                    <label for="bankLocation">Bank Location:</label><br>
+                    <select id="Bank Location" name="bankLocation" class="form-select">
+                        {% for bank_location in bank_locations %}
+                            <option value="{{ bank_location }}">{{ bank_location }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="form-button">Start</button>
+        </div>
+    </form>
+
+
+</body>
+</html>

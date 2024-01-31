@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Menu</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main_menu.css') }}">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Main Menu</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/main_menu.css') }}">
+    </head>
+    <body>
 
-    <div class="container">
-        <h1>OSRS BOT</h1>
-        
-        <div class="menu">
-            <a href="{{ url_for('auto_attack') }}" class="menu-button">Auto Attack</a>
-            <a href="{{ url_for('auto_walker') }}" class="menu-button">Auto Walker</a>
-            <a href="{{ url_for('pick_up_and_bank_items') }}" class="menu-button">Pick Up & Bank Items</a>
+        <div class="container">
+            <h1>OSRS BOT</h1>
+
+            <div class="menu">
+
+                <a href="{{ url_for('auto_walker') }}" class="menu-button">Auto Walker</a>
+                <a href="{{ url_for('auto_attack') }}" class="menu-button">Auto Attack</a>
+                <!-- <a href="{{ url_for('auto_attack') }}" class="menu-button">Pick Up & Bank Items</a> -->
+                <a href="{{ url_for('hide_tannery') }}" class="menu-button">Hide Tannery</a>
+            </div>
         </div>
-    </div>
 
-</body>
+    </body>
 </html>
