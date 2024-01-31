@@ -41,24 +41,17 @@ def get_current_coordinates():
         result = requests.get(events_url)
     except:
         print("Error most probably disturbed by an interaction. Will click to somewhere to stop interaction.")
-        smooth_move_to(873,495)
+        smooth_move_to(900,495)
         # pyautogui.moveTo(873,495,duration=0.6)
         pyautogui.click()
-        time.sleep(5)
+        time.sleep(1.5)
+    try:
         result = requests.get(events_url)
-        # events_api_reponded = False
-        
-        # while events_api_reponded == False:
-        #     try:
-        #         pyautogui.moveTo(873,495,duration=0.6)
-        #         pyautogui.click()
-        #         # time.sleep()
-        #         result = requests.get(events_url)
-        #         events_api_reponded = True
-        #     except:
-        #         pyautogui.moveTo(873,495,duration=0.6)
-        #         print("Error with Api attempting to move a few steps")
-        #         time.sleep(5)
+    except:
+        print("Error most probably disturbed by an interaction. Will click to somewhere to stop interaction.")    
+        smooth_move_to(300,540)
+        result = requests.get(events_url)
+    # result = requests.get(events_url)
     result_json = json.loads(result.text)
     current_step_x, current_step_y, current_step_z = str(result_json['playerObject']['playerCoordinates']['x']), str(result_json['playerObject']['playerCoordinates']['y']), str(result_json['playerObject']['playerCoordinates']['plane'])
     return current_step_x,current_step_y,current_step_z
@@ -100,7 +93,7 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
     for next_step in path_coordinates:
         if keyboard.is_pressed("q"):
             print("Exitting since Q was Pressed")
-            return
+            exit(0)
         else:
             current_coordinates = get_current_coordinates()
             current_step_x, current_step_y, current_step_z = int(current_coordinates[0]), int(current_coordinates[1]), int(current_coordinates[2])
@@ -109,8 +102,8 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
             next_step_x, next_step_y,next_step_z = int(next_step[0]), int(next_step[1]), int(next_step[2])
             # print(current_step_x,current_step_y, next_step_x, next_step_y)
             ## check aand handle any obstacles examples, doors, stairs, gates etc ##
-            if detect_possible_obstacles(next_step_z, current_step_z):
-                walk_to_destination(destination_x,destination_y,destination_z)
+            detect_possible_obstacles(next_step_z, current_step_z)
+                # walk_to_destination(destination_x,destination_y,destination_z)
 
             ################# Obstacles handled so we attempt to follow path #################
             if next_step_x != current_step_x or next_step_y != current_step_y:
@@ -132,22 +125,21 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                 if total_steps_left < 5:
                     print("We are arriving soon, slowing down...")
                     if is_player_running == True:
-                        sleep_interval += 1.1
+                        sleep_interval += 1.3
                     elif is_player_running == False:
-                        sleep_interval += 0.6       
+                        sleep_interval += 0.7
                 # elif total_coordinates - current_line_iteration >= 5:
                 #     sleep_interval = 1.2       
 
                 ## change time interval based on whether we will change z/plane soon and whether running.
-                changing_plane_soon = check_if_change_plane_soon(current_line_z=current_step_z)
-                if changing_plane_soon == True  and total_steps_left > 5:
+                changing_plane_soon = check_if_change_plane_soon(current_coord_z=current_step_z, path_line_iteration=current_line_iteration)
+                if changing_plane_soon == True :
                     print("changing plane soon")
                     if is_player_running:
-                        sleep_interval += 1
+                        sleep_interval += 0.8
                     else:
                         # time.sleep(1)
-                        sleep_interval += 0.3
-
+                        sleep_interval += 0.4
 
                 ## tile difference between next step and current step
                 difference_in_x = next_step_x - current_step_x
@@ -170,27 +162,39 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                 smooth_move_to(screen_x_location,screen_y_location)
                 # pyautogui.moveTo((screen_x_location,screen_y_location), duration=0.2)
                 # time.sleep(0.2)
+                print("still going")
                 pyautogui.click(screen_x_location,screen_y_location)  
-
+                print(difference_in_x,difference_in_y)
                 ## check if we are going too fast, if yes wait a few.. ##
                 if difference_in_x > -2 or difference_in_x < 2 or difference_in_y > -2 or difference_in_y < 2:
                     print("Pausing due too tile difference being greater than 2...")
                     time.sleep(sleep_interval)
                 if screen_y_location < 360 or screen_y_location > 800 or screen_x_location < 670 or screen_x_location > 1250:    
                     print("Pausing due too mouse being too far from player...")
-                    time.sleep(sleep_interval * 3)
-                
+                    time.sleep(sleep_interval * 2.7)
+                if difference_in_x < -7 or difference_in_x > 7 or difference_in_y < -7 or difference_in_y > 7:
+                    print("Difference in tile is greater than 9, re working path")
+                    # return 
+                    # walk_to_destination(destination_x,destination_y,destination_z)
+                    return False
+                    # time.sleep(1)
             else:
                 print(f"Player Already on {destination_x}, {destination_y}")
             
             print("Arrived in destination Tile...\n")
         current_line_iteration += 1
     time.sleep(3)
+    return True
 
 def walk_to_destination(destination_x,destination_y,destination_z):    
     print(f"Request to walk to destination: {destination_x},{destination_y}")
     ## run this twice to ensure that you arrive on the desired tile
     # for count in range(0,2):
-    #     walk_to_destination_function(destination_x,destination_y,destination_z)
-    walk_to_destination_function(destination_x,destination_y,destination_z)    
+        # walk_result = walk_to_destination_function(destination_x,destination_y,destination_z)
+    walk_result = walk_to_destination_function(destination_x,destination_y,destination_z)
+    if walk_result == False:
+        walk_to_destination(destination_x,destination_y,destination_z)
+    else:
+        return True    
+    # walk_to_destination_function(destination_x,destination_y,destination_z)    
     

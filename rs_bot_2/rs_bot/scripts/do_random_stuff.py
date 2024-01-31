@@ -22,3 +22,8 @@ from helpers.pickup_items import pickup_dropped_items
 def tannery():
     print("This will be the function to go tannery, we would need to have cowhide in bank...")
     return
+
+def attack_npcs():
+    print("We will use this to attack npcs...")
+
+    

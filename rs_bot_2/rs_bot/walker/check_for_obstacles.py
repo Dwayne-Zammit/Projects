@@ -86,7 +86,7 @@ def take_screenshot_hovered_tile_area():
 def get_possible_obstacle_name(possible_obstacle_coordinates):
     print(possible_obstacle_coordinates)
     ## hover on possible obstacle ##
-    pyautogui.moveTo(possible_obstacle_coordinates,duration=0.2)
+    pyautogui.moveTo(possible_obstacle_coordinates,duration=0.1)
     ## take a screenhost on the hovered text 
     screenshot = pyautogui.screenshot(region=(3,25,250,50))
     screenshot.save(f"{parent_directory}/screenshots/hovered_text.png")
@@ -118,7 +118,7 @@ def detect_stairs(obstacle_name, next_step_z, current_step_z, possible_obstacles
             return True
         else:
             print("Same story no need to click on stairs...")
-    return False
+            return False
 
 # check for doors or gates ##
 def detect_gates_doors(obstacle_name, possible_obstacles_coordinates):       

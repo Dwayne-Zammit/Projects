@@ -16,11 +16,11 @@ from bank_items import locate_banker_x_y
 from helpers.api_request_events import check_if_bank_is_open
 from helpers.mouse_helpers import smooth_move_to
 
-api_url = "http://localhost:5050/"
-api_route = "bank"
+# api_url = "http://localhost:5050/"
+# api_route = "bank"
 
-bank_items = requests.get(api_url + api_route).text
-bank_items = orjson.loads(bank_items)
+# bank_items = requests.get(api_url + api_route).text
+# bank_items = orjson.loads(bank_items)
 
 
 def open_bank():
