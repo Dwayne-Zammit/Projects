@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Walker</title>
+    <title>Hide Tanner</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/auto_walker.css') }}">
     <style>
         .hidden {
@@ -17,15 +17,15 @@
 </head>
 <body>
 
-    <h1>Auto Walker</h1>
+    <h1>Hide Tanner</h1>
 
-    <form method="post" action="{{ url_for('auto_walker') }}" class="form-container" onsubmit="showMessage()">
+    <form method="post" action="{{ url_for('hide_tannery') }}" class="form-container" onsubmit="showMessage()">
         <div class="destination-input-container">
             <div id="messageContainer">
                 <p>{{ message }}</p>
             </div>
-            <label for="destinationPlace" class="form-label">Destination Place:</label>
-            <select id="destinationPlace" name="destinationPlace" class="form-select">
+            <label for="tanneryLocation" class="form-label">Tannery Location:</label>
+            <select id="tanneryLocation" name="tanneryLocation" class="form-select">
                 {% for place in places %}
                     <option value="{{ place }}">{{ place }}</option>
                 {% endfor %}
@@ -42,6 +42,5 @@
             messageContainer.classList.add('visible');
         }
     </script>
-
 </body>
 </html>
