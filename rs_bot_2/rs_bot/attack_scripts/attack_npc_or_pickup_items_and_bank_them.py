@@ -10,27 +10,16 @@ parent_directory = os.path.dirname(current_directory)
 
 # Add the parent directory to sys.path
 sys.path.append(parent_directory)
+sys.path.append(current_directory)
 
 # Import the desired modules from the parent directory
 from attack_scripts.attack_highlighted_npc import start_attacking_marked_npcs
 from walker.walker import walk_to_destination
 from walker.get_destination_coordinates import search_place_coordinates
 from helpers.api_request_events import check_if_inventory_is_full
-from bank_items.bank_items import put_inventory_in_bank
+from bank_functions.bank_items import put_inventory_in_bank
 from helpers.pickup_items import pickup_dropped_items
 
-
-# Initialize ConfigParser
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-## Settings ##
-bank_location = config['Attack Options']['bank_location']
-npc_location = config['Attack Options']['npc_location']
-pickup_items_only_and_bank_them = config.getboolean('Attack Options', 'pickup_items_only_and_bank_them')
-attack_npc = config.getboolean('Attack Options', 'attack_npc')
-pickup_items = config.getboolean('Attack Options', 'pickup_items')
-## Settings ##
 
 
 def go_to_location(destination_name):
@@ -39,7 +28,20 @@ def go_to_location(destination_name):
     walk_to_destination(destination_x,destination_y,destination_z)
     return
 
-def main():
+def start_attacking_npcs():
+    # Initialize ConfigParser
+    config = configparser.ConfigParser()
+    print(current_directory)
+    config_file = f"{current_directory}/config.ini"
+    config.read(config_file)
+    ## Settings ##
+    bank_location = config['Attack Options']['bank_location']
+    npc_location = config['Attack Options']['npc_location']
+    pickup_items_only_and_bank_them = config.getboolean('Attack Options', 'pickup_items_only_and_bank_them')
+    attack_npc = config.getboolean('Attack Options', 'attack_npc')
+    pickup_items = config.getboolean('Attack Options', 'pickup_items')
+    ## Settings ##
+
     ## go to npc marked location ##
     print(f"Going To location {npc_location}")
     # exit(1)
@@ -47,7 +49,8 @@ def main():
 
     while True:
         if keyboard.is_pressed('q'):
-            exit(1)
+            print("Exitting since Q was pressed...")
+            exit(0)
         else:    
             inventory_full = check_if_inventory_is_full()
             if pickup_items or pickup_items_only_and_bank_them:
@@ -79,7 +82,4 @@ def main():
                 elif attack_npc == True and pickup_items == False:
                     start_attacking_marked_npcs(pickup_items=False)    
                 time.sleep(2)
-
-if __name__ == "__main__":
-    # go_to_location(npc_location)
-    main()
+     

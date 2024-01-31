@@ -148,6 +148,8 @@ def start_attacking_marked_npcs(pickup_items):
                 npc = check_npc_name()
                 
                 while len(npc) > 1:
+                    if keyboard.is_pressed("q"):
+                        exit(0)
                     npc = check_npc_name()
                     print(f"We are fighting a {npc}")
                     time.sleep(0.5)

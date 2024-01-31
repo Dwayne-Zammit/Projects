@@ -26,7 +26,7 @@ from helpers.mouse_helpers import smooth_move_to
 hide = "Cowhide"
 tanned_hide = "HARD_LEATHER"
 bank_location = "Al Kharid Bank"
-tannery_location = "Al Kharid Tanning"
+tannery_location = "Al Kharid Tannery"
 toll_gate = False
 
 
@@ -121,7 +121,7 @@ def go_to_bank_and_get_cowhide():
     close_bank()
     return
 
-def main():
+def start_hide_tannery():
     go_to_bank_and_get_cowhide()
     while not keyboard.is_pressed("q"):
         # go to tanning location
@@ -158,7 +158,7 @@ def main():
         pyautogui.press("esc")
         
         ## go back to bank and deposit all loot to bank ##
-        if tannery_location == "Al Kharid Tanning":
+        if tannery_location == "Al Kharid Tannery":
             if toll_gate:
                 bank_location = "Al Kharid Bank"
                 go_to_location("Toll Gate East Side")
@@ -179,4 +179,4 @@ def main():
         retrieve_item_from_bank("coins",quantity="all")
         retrieve_item_from_bank(hide, quantity="all")
         close_bank()
-main()
+        

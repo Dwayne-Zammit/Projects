@@ -25,12 +25,12 @@ print(current_directory)
 config.read(APP_CONFIG)
 ## Settings ##
 # print(config[0])
-bank_location = config['credentials']['username']
-
+username = config['credentials']['username']
+print(username)
 
 def open_runelite_client_function():
     try:
-        window_title = "RuneLite - Dukadelmin"
+        window_title = f"RuneLite - {username}"
         max_attempts = 1
         delay_between_attempts = 2  # seconds
 

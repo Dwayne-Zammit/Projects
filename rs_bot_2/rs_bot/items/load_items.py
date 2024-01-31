@@ -1,5 +1,6 @@
 import os
 import orjson
+from collections import OrderedDict
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 
@@ -17,3 +18,13 @@ def get_item_id(target_items):
     json_string = "{" + json_string[0:-1] + "}"
     items_json_return = orjson.loads(json_string)
     return items_json_return
+
+
+def get_item_names():
+    json_string = ""
+    for target_item in items_json:
+        json_string += (f'"{target_item}":{items_json[target_item.upper()]},')
+    json_string = "{" + json_string[0:-1] + "}"
+    items_json_return = orjson.loads(json_string)
+    sorted_items = OrderedDict(sorted(items_json_return.items()))
+    return sorted_items
