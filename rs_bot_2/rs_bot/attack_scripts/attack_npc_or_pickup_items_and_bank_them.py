@@ -19,7 +19,7 @@ from walker.get_destination_coordinates import search_place_coordinates
 from helpers.api_request_events import check_if_inventory_is_full
 from bank_functions.bank_items import put_inventory_in_bank
 from helpers.pickup_items import pickup_dropped_items
-
+from bury_bones.bury_bones import check_for_bones_in_inventory_and_bury_if_found
 
 
 def go_to_location(destination_name):
@@ -40,12 +40,13 @@ def start_attacking_npcs():
     pickup_items_only_and_bank_them = config.getboolean('Attack Options', 'pickup_items_only_and_bank_them')
     attack_npc = config.getboolean('Attack Options', 'attack_npc')
     pickup_items = config.getboolean('Attack Options', 'pickup_items')
+    bank_items = config.getboolean('Attack Options', 'bank_items')
     ## Settings ##
 
     ## go to npc marked location ##
-    print(f"Going To location {npc_location}")
+    # print(f"Going To location {npc_location}")
     # exit(1)
-    go_to_location(npc_location)
+    # go_to_location(npc_location)
 
     while True:
         if keyboard.is_pressed('q'):
@@ -59,23 +60,33 @@ def start_attacking_npcs():
                     go_to_location(bank_location)
                     put_inventory_in_bank("")
                     go_to_location(npc_location)
+
                     print(f"We have a full inventory. Going to bank items at {bank_location}.")
                 else:
                     print(f"Inventory is not full. Walking to {npc_location}")
                     go_to_location(npc_location)
                     pass
-            while not inventory_full or keyboard.is_pressed("q"):
+            while not keyboard.is_pressed("q"):
+
                 inventory_full = check_if_inventory_is_full()
+                if bank_items:
+                    if inventory_full :
+                        break
                 if pickup_items_only_and_bank_them:
+                    while not inventory_full:
+                        go_to_location(npc_location)
+                        print("pickup items only and bank them")
+                        # go_to_location(npc_location)
+                        # go_to_location(bank_location)
+                        # running script to pick up items only from np_location #
+                        no_items_left = pickup_dropped_items()
+                        print(no_items_left)
+                        if no_items_left == None or no_items_left == False:
+                            start_attacking_marked_npcs(pickup_items=True)
+                        # attack npcs script, do not attempt to pickup loot
+                        
                     # go_to_location(bank_location)
-                    # running script to pick up items only from np_location #
-                    no_items_left = pickup_dropped_items()
-                    print(no_items_left)
-                    if no_items_left == None or no_items_left == False:
-                        start_attacking_marked_npcs(pickup_items=False)
-                    # attack npcs script, do not attempt to pickup loot
-                    go_to_location(npc_location)
-                    start_attacking_marked_npcs(pickup_items=False)
+                    # start_attacking_marked_npcs(pickup_items=True)
                 elif attack_npc == True and pickup_items == True:
                     # attack npcs script, attempt to pickup loot
                     start_attacking_marked_npcs(pickup_items=True)

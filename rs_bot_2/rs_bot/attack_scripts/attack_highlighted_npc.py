@@ -12,9 +12,10 @@ parent_directory = os.path.dirname(current_directory)
 # Add the parent directory to sys.path
 sys.path.append(parent_directory)
 
-from helpers.api_request_events import get_current_health, check_npc_name, check_npc_health
+from helpers.api_request_events import get_current_health, check_npc_name, check_npc_health, get_max_health
 from helpers.pickup_items import pickup_dropped_items
 from helpers.mouse_helpers import smooth_move_to
+from bury_bones.bury_bones import check_for_bones_in_inventory_and_bury_if_found
 pyautogui.FAILSAFE = False
 
 def move_mouse_to_middle_of_screen():
@@ -136,8 +137,14 @@ def run_away():
 def start_attacking_marked_npcs(pickup_items):
     try:
         print("Attempting to find npc and start attacking")
-
-        if int(get_current_health()) >= 13:
+        max_health = get_max_health()
+        health_to_start_attacking = max_health * 20 / 100
+        if health_to_start_attacking < 4:
+            health_to_start_attacking = 4
+        health_to_stop_attacking = max_health *  10 / 100
+        if health_to_stop_attacking < 4:
+            health_to_stop_attacking = 3
+        if int(get_current_health()) >= int(health_to_start_attacking):
             # move_mouse_to_middle_of_screen() 
             
             while True:
@@ -155,17 +162,18 @@ def start_attacking_marked_npcs(pickup_items):
                     time.sleep(0.5)
                     print(f"Current Health: {get_current_health()}")
                     print(f"NPC's Health: {check_npc_health()}\n")
-                    if int(get_current_health()) < 5:
+                    if int(get_current_health()) < 2:
                         print("We are running out of health")
                         run_away()
                 else:
                     time.sleep(1)
+                    check_for_bones_in_inventory_and_bury_if_found()
                     break
         
-        elif int(get_current_health()) < 13:
+        elif int(get_current_health()) < int(health_to_stop_attacking):
             print("Not attempting to fight now due to low health...")
             if len(check_npc_name()) > 0:
-                print("Possibility of fying, attempting to run away...")
+                print("Possibility of dying, attempting to run away...")
                 run_away()
             time.sleep(10)
 
@@ -174,4 +182,4 @@ def start_attacking_marked_npcs(pickup_items):
         print("\n")
     except Exception as e:
         print(e)
-        print("error occured")
+        print("No Marked NPC on screem")
