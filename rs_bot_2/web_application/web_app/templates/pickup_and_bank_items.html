@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Attack</title>
+    <style>
+        /* Apply styles to all input elements within the form */
+        .form-container input[type="text"],
+        .form-container select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* Style the submit button */
+        .form-container button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Change button background color on hover */
+        .form-container button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Pickup & Bank items</h1>
+
+    <form method="post" action="{{ url_for('pickup_and_bank_items') }}" class="form-container">
+        <div class="destination-input-container">
+            <label for="droppedItemLocation" class="form-label">Dropped item Location:</label>
+            <select id="droppedItemLocation" name="droppedItemLocation" class="form-select">
+                {% for place in dropped_item_location %}
+                    <option value="{{ place }}">{{ place }}</option>
+                {% endfor %}
+            </select>
+            <label for="droppedItemName">Dropped Item Name:</label><br>
+            <select id="droppedItemName" name="droppedItemName" class="form-select">
+                {% for dropped_item_name in dropped_item_names %}
+                    {% if dropped_item_name.lower() == "cowhide" %}
+                        <option value="{{ dropped_item_name }}" selected>{{ dropped_item_name }}</option>
+                    {% else %}
+                        <option value="{{ dropped_item_name }}">{{ dropped_item_name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+            <label for="bankLocation">Bank Location:</label><br>
+            <select id="bankLocation" name="bankLocation" class="form-select">
+                {% for bank_location in bank_locations %}
+                    <option value="{{ bank_location }}">{{ bank_location }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="form-button">Start</button>
+        </div>
+    </form>
+
+</body>
+</html>

@@ -20,25 +20,27 @@ def attack_npc(bank_location, npc_location, pickups_items_only_and_bank_them, at
     # Load the config file
     config = configparser.ConfigParser()
     config.read(config_file) 
-    print(npc_name)  
+    # print(npc_name)  
     # Update the variables
-    print(bank_location)
+    # print(bank_location)
     config['Attack Options']['bank_location'] = bank_location
     config['Attack Options']['npc_location'] = npc_location
     config['Attack Options']['pickup_items_only_and_bank_them'] = pickups_items_only_and_bank_them
+    config['Attack Options']['pickup_items'] = pickup_items
     config['Attack Options']['attack_npc'] = attack_npc
-    if attack_npc == None:
+    if attack_npc == None or attack_npc == False:
         config['Attack Options']['attack_npc'] = "False"
     else:
-        config['Attack Options']['attack_npc'] = "True"        
-    if pickup_items == None:
-        config['Attack Options']['pickup_items'] = "False"
-    else:
+        config['Attack Options']['attack_npc'] = "True"
+    print(pickup_items)        
+    if pickup_items == "on" or pickup_items == True:
         config['Attack Options']['pickup_items'] = "True"
+    else:
+        config['Attack Options']['pickup_items'] = "False"
     if bank_items == None:
         config['Attack Options']['bank_items'] = "False"
     else:
-        config['Attack Options']['bank_items'] = "True"    
+        config['Attack Options']['bank_items'] = "True"
     
     config['Attack Options']['npc_name'] = npc_name
     config['Attack Options']['dropped_item_name'] = dropped_item_name

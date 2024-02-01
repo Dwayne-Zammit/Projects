@@ -78,7 +78,7 @@ def auto_attack():
 
         if pickup_items == None:
             pickup_items = "False"
-            
+
         if bank_items == None:
             pickup_items = "False"    
         
@@ -89,6 +89,28 @@ def auto_attack():
         run_task_thread.start()
         return render_template("auto_attack_npc.html", places=known_places_names, dropped_item_names = item_names, npcs_names = npcs_names,bank_locations=bank_names, message="Auto Attack started")
 
+
+@app.route('/pickup_and_bank_items', methods=["GET", "POST"])
+def pickup_and_bank_items(): 
+    known_places_names = [name['name'] for name in known_places()]
+    item_names = get_item_names()
+    npcs_names = get_npcs_names()
+    bank_names = [name['name'] for name in known_places() if "bank" in name['name'].lower()]
+    if request.method == "GET":
+        return render_template("pickup_and_bank_items.html", dropped_item_location = known_places_names, dropped_item_names = item_names,npcs_names = npcs_names, bank_locations=bank_names, message = "Press Q to quit")
+    elif request.method == "POST":
+        dropped_item_name = request.form.get('droppedItemName')
+        bank_location = request.form.get('bankLocation')
+        item_location = request.form.get('droppedItemLocation')
+        dropped_item_name = dropped_item_name if dropped_item_name is not None else ""
+        pickup_items_only_and_bank_them = "True"
+        attack_npc_option = "False"
+        pickup_items = "on"
+        bank_items = "True"
+        npc_name = "None"
+        run_task_thread = threading.Thread(target=attack_npc, args=(bank_location,item_location,pickup_items_only_and_bank_them,attack_npc_option,pickup_items,dropped_item_name,bank_items, npc_name),)
+        run_task_thread.start()
+        return render_template("pickup_and_bank_items.html", dropped_item_location=known_places_names, dropped_item_names = item_names, npcs_names = npcs_names,bank_locations=bank_names, message="Auto Attack started")
 
 @app.route('/hide_tannery', methods=["GET", "POST"])
 def hide_tannery():
