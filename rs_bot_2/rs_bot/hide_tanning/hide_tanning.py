@@ -20,6 +20,7 @@ from walker.walker import walk_to_destination
 from walker.get_destination_coordinates import search_place_coordinates
 from bank_functions.bank_functions import open_bank,close_bank, check_if_bank_is_open, retrieve_item_from_bank,deposit_all_items_to_bank
 from helpers.mouse_helpers import smooth_move_to 
+from helpers.api_request_events import item_quantity_in_bank
 
 
 ## settings ##
@@ -122,9 +123,16 @@ def go_to_bank_and_get_cowhide():
     return
 
 def start_hide_tannery():
-    go_to_bank_and_get_cowhide()
-    while not keyboard.is_pressed("q"):
-        # go to tanning location
+    hide_quantity_in_bank = item_quantity_in_bank(hide)
+    print(hide_quantity_in_bank)
+    if hide_quantity_in_bank > 5:
+        go_to_bank_and_get_cowhide()
+    else:
+        return f"No {hide} in bank"       
+    # hide_quantity_in_bank = item_quantity_in_bank(hide)
+    while not keyboard.is_pressed("q") and hide_quantity_in_bank > 5:
+        
+        # go to toll gate (not used)
         # if tannery_location == "Al Kharid Tanning":
         #     if toll_gate:
         #         bank_location = "Al Kharid Bank"
@@ -134,6 +142,10 @@ def start_hide_tannery():
         #         go_to_location("Al Kharid Tanning")
         #     else:
         #         go_to_location(tannery_location)
+
+        ## get quantity item from bank 
+        hide_quantity_in_bank = item_quantity_in_bank(hide)
+
         go_to_location(tannery_location)
         ## Wait a few till we arrive ##
         time.sleep(1)
@@ -167,8 +179,7 @@ def start_hide_tannery():
             else:
                 bank_location = "Al Kharid Bank"
                 go_to_location(bank_location)   
-        try:
-           
+        try:  
            open_bank()
         except:
            time.sleep(3)
@@ -179,4 +190,6 @@ def start_hide_tannery():
         retrieve_item_from_bank("coins",quantity="all")
         retrieve_item_from_bank(hide, quantity="all")
         close_bank()
-        
+    if hide_quantity_in_bank < 5:
+        print(f"Stopped tanning hides due to no {hide} left in bank.")
+        return

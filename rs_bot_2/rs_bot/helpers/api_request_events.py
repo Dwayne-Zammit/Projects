@@ -1,8 +1,9 @@
 import requests
-import json
+import orjson
 import time
 import os
 import sys
+import json
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 parent_directory = os.path.dirname(current_directory)
@@ -16,7 +17,7 @@ coord_file_path = os.path.join(parent_directory, "walker/walker/coords.txt")
 
 def get_all_events():
     result = requests.get(url)
-    result = json.loads(result.text)
+    result = orjson.loads(result.text)
     return result
 
 
@@ -67,12 +68,27 @@ def check_if_bank_is_open():
     return api_result['bankOpen']
     
 
+def get_max_health():
+    api_result = get_all_events()
+    return api_result['playerObject']['maxHealth']
+    
+def check_if_item_in_inventory(item_id):
+    inventory_url = "http://localhost:5050/inv"
+    result = requests.get(inventory_url)
+    inventory = json.loads(result.text)
+    for key in inventory:
+        if key['id'] == item_id:
+            print("item in inventory")
+            return True
+    return False
+
+
 # def item_quantity_in_bank(item_name):
 #     url = "http://localhost:5050/bank"
 #     result = requests.get(url)
 #     bank_items = json.loads(result.text)
 #     print(item_name)
-#     item_id_from_list = str(get_item_id([item_name])[2:-2].replace("'","").split(":"))
+#     # item_id_from_list = str(get_item_id([item_name])[2:-2].replace("'","").split(":"))
 #     print(item_id_from_list)
 #     # (str(item_id_from_list)[2:-2]).replace("'","").split(":")
 #     for bank_item in bank_items:
@@ -86,3 +102,31 @@ def check_if_bank_is_open():
 
 # item_name = "Cowhide".upper()
 # item_quantity_in_bank(item_name)
+
+# print(item_quantity_in_bank())
+
+def item_quantity_in_bank(item_name):
+    try:
+        item_id_from_db = get_item_id([item_name])
+
+        # print(item_id)
+        url = "http://localhost:5050/bank"
+        response = requests.get(url)
+        # Check if the request was successful
+        if response.status_code == 200:
+            bank_items = json.loads(response.content.decode('utf-8'))  # Decode and parse JSON
+            for item in bank_items:
+
+                item_id = item.get('id')
+                # print(item_id)
+                # print(item_id_from_db[item_name])
+                if item_id_from_db[item_name] == item_id:
+                    quantity = item.get('quantity')
+                    # print(f"{quantity}")
+                    return quantity
+        else:
+            print("Error: Failed to retrieve bank items.")
+            return 0
+    except Exception as error:
+        print("Item does not exist in db...")    
+        return 0 

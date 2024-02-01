@@ -166,13 +166,13 @@ def walk_to_destination_function(destination_x,destination_y,destination_z):
                 pyautogui.click(screen_x_location,screen_y_location)  
                 print(difference_in_x,difference_in_y)
                 ## check if we are going too fast, if yes wait a few.. ##
-                if difference_in_x > -2 or difference_in_x < 2 or difference_in_y > -2 or difference_in_y < 2:
+                if difference_in_x > -4 or difference_in_x < 4 or difference_in_y > -4 or difference_in_y < 4:
                     print("Pausing due too tile difference being greater than 2...")
                     time.sleep(sleep_interval)
                 if screen_y_location < 360 or screen_y_location > 800 or screen_x_location < 670 or screen_x_location > 1250:    
                     print("Pausing due too mouse being too far from player...")
                     time.sleep(sleep_interval * 2.7)
-                if difference_in_x < -7 or difference_in_x > 7 or difference_in_y < -7 or difference_in_y > 7:
+                if difference_in_x < -15 or difference_in_x > 15 or difference_in_y < -15 or difference_in_y > 15:
                     print("Difference in tile is greater than 9, re working path")
                     # return 
                     # walk_to_destination(destination_x,destination_y,destination_z)
