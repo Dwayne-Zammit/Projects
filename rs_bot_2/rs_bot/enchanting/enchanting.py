@@ -21,7 +21,7 @@ from items.load_items import get_item_id
 
 
 ring_name = "Emerald Ring"
-runes = "Cosmic Runes"
+runes = "Cosmic Rune"
 cast_2_level_enchant_x, cast_2_level_enchant_y = 1761, 796
 
 
